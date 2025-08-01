@@ -7,7 +7,7 @@ Set-Alias -Name nano -Value 'micro'
 function Invoke-Starship-PreCommand {
     $host.ui.RawUI.WindowTitle = (Get-Item $pwd).Name
 }
-  
+
 function eza {
     eza.exe --group-directories-first -laho --no-user --icons --git --git-repos --time-style relative
 }
@@ -73,7 +73,7 @@ function supdate {
 
 function pupdate {
     Write-Output "Upgrading all winget packages...`n"
-    & winget upgrade --all --accept-source-agreements --accept-package-agreements 
+    & winget upgrade --all --accept-source-agreements --accept-package-agreements
     if ($LASTEXITCODE -eq 0) {
         Write-Output "All packages upgraded successfully.`n"
     } else {
@@ -81,6 +81,9 @@ function pupdate {
     }
 }
 
+function nvmuse {
+    nvm use $(Get-Content .nvmrc)
+}
 
 # Common directories
 function dotfiles { Set-Location -Path "$env:USERPROFILE\.dotfiles\$args" }

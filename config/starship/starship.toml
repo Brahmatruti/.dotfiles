@@ -149,7 +149,7 @@ symbol = ""
 
 [nodejs]
 symbol = ""
-format = "[$symbol $version ( $engines_version)]($style)"
+format = "[$symbol $version( ⚠️$engines_version)]($style)"
 style = "bold green"
 not_capable_style = "bold red"
 
