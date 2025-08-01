@@ -31,7 +31,7 @@ disabled = false
 format = "${indicator} "
 bash_indicator = '[](gray)'
 zsh_indicator = '[](purple)'
-fish_indicator = '[󰈺](purple)'
+fish_indicator = '[](purple)'
 cmd_indicator = '[](red)'
 powershell_indicator = '[󰨊](blue)'
 unknown_indicator = '[](red)'
@@ -40,6 +40,7 @@ unknown_indicator = '[](red)'
 symbol = ' '
 style = 'bold green'
 format = '[$symbol]($style)'
+allow_windows = true
 disabled = false
 
 [directory]
@@ -63,13 +64,13 @@ style = "bold red"
 disabled = false
 
 [os.symbols]
-Alpine = ' '
-Arch = ' '
-Debian = ' '
-Linux = ' '
-Macos = ' '
 Ubuntu = ' '
 Windows = ' '
+Macos = ' '
+Arch = ' '
+Alpine = ' '
+Debian = ' '
+Linux = ' '
 Unknown = ' '
 
 [memory_usage]
@@ -124,41 +125,43 @@ tag_symbol = '󰓹 '
 disabled = false
 
 [aws]
-symbol = "  "
+symbol = ""
 
 [c]
-symbol = " "
+symbol = ""
 
 [docker_context]
-symbol = " "
+symbol = ""
 detect_files = [ "docker-compose.yml", "docker-compose.yaml", "Dockerfile" ]
 
 [dotnet]
-symbol = ' '
+symbol = ''
 heuristic = true
 
 [golang]
-symbol = " "
+symbol = ""
 
 [java]
-symbol = " "
+symbol = ""
 
 [lua]
-symbol = " "
+symbol = ""
 
 [nodejs]
-symbol = " "
-format = "via [$symbol($version )]($style)"
+symbol = ""
+format = "[$symbol $version ( $engines_version)]($style)"
+style = "bold green"
+not_capable_style = "bold red"
 
 [package]
 symbol = " "
 format = "[$symbol($version )]($style)"
 
 [python]
-symbol = " "
+symbol = ""
 
 [ruby]
-symbol = " "
+symbol = ""
 
 [rust]
-symbol = " "
+symbol = ""

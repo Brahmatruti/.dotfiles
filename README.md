@@ -24,23 +24,25 @@
 
 Depending on your OS, copy and paste the code to start installation. This code will download my dotfiles and start setup depending on your OS.
 
-### MacOS 12.0 Monterey (and above)
+### MacOS Monterey (and above)
+<details>
+ <summary>MacOS Monterey (and above)</summary>
+<pre lang="bash">bash -c "$(curl -LsS https://raw.github.com/excalith/.dotfiles/main/scripts/setup.sh)"</pre>
+</details>
 
-```bash
-bash -c "$(curl -LsS https://raw.github.com/excalith/.dotfiles/main/scripts/setup.sh)"
-```
 
 ### Ubuntu 22.04 Jammy Jellyfish (and above)
+<details>
+ <summary>Download and Setup</summary>
+<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/excalith/.dotfiles/main/scripts/setup.sh)"</pre>
+</details>
 
-```bash
-bash -c "$(wget --no-cache -qO - https://raw.github.com/excalith/.dotfiles/main/scripts/setup.sh)"
-```
 
 ### Arch Linux
-
-```bash
-bash -c "$(wget --no-cache -qO - https://raw.github.com/excalith/.dotfiles/main/scripts/setup.sh)"
-```
+<details>
+ <summary>Download and Setup</summary>
+<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/excalith/.dotfiles/main/scripts/setup.sh)"</pre>
+</details>
 
 ### Lite Version
 
@@ -57,12 +59,7 @@ bash -c "$(curl -LsS https://raw.github.com/excalith/.dotfiles/main/system/lite/
 Allow remote scripts to run
 
 ```ps
-# Allows you to run the script from remote
-Set-ExecutionPolicy Bypass -Scope Process
-
-# Allows you to run scripts locally
-Set-ExecutionPolicy RemoteSigned -Force
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+Set-ExecutionPolicy Bypass -Scope Process; Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
 ```
 
 Download the dotfiles and start setup
@@ -71,7 +68,7 @@ Download the dotfiles and start setup
 Invoke-Expression (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/excalith/.dotfiles/main/scripts/setup.ps1').Content
 ```
 
-Reset Execution Policy
+Reset Execution Policy (Optional)
 
 ```ps
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Restricted
