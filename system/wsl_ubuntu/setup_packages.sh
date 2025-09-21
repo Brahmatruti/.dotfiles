@@ -6,6 +6,8 @@
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_ubuntu.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
 
 
 #==================================
@@ -114,3 +116,9 @@ curl -Lo lazygit.tar.gz --silent --output /dev/null "https://github.com/jesseduf
 sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
 rm -rf lazygit.tar.gz
 print_success "lazygit"
+
+
+#==================================
+# Installation Summary
+#==================================
+print_installation_summary

@@ -6,6 +6,8 @@
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_alpine.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
 
 #==================================
 # Print Section Title
@@ -128,3 +130,9 @@ apk_install "g++" "g++"
 # NFS (Linux specific)
 apk_install "NFS common" "nfs-utils"
 apk_install "Autofs" "autofs"
+
+
+#==================================
+# Installation Summary
+#==================================
+print_installation_summary

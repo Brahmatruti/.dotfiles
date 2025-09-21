@@ -1,0 +1,37 @@
+{
+  "name": "Uni_dotfiles Development Environment",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "ms-vscode.powershell",
+        "ms-vscode-remote.remote-containers",
+        "timonwong.shellcheck",
+        "ms-vscode.vscode-bash-debug"
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "files.associations": {
+          "*.sh": "shellscript"
+        },
+        "shellcheck.enable": true,
+        "shellcheck.run": "onSave"
+      }
+    }
+  },
+  "mounts": [
+    "source=${localWorkspaceFolder}/scripts,target=/workspaces/uni_dotfiles/scripts,type=bind,consistency=cached",
+    "source=${localWorkspaceFolder}/system,target=/workspaces/uni_dotfiles/system,type=bind,consistency=cached"
+  ],
+  "postCreateCommand": "chmod +x /workspaces/uni_dotfiles/scripts/setup.sh",
+  "remoteUser": "vscode"
+}

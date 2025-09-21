@@ -6,6 +6,8 @@
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_arch.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
 
 #==================================
 # Print Section Title
@@ -228,3 +230,9 @@ extension_install "Rounded Corners" "https://extensions.gnome.org/extension/1514
 extension_install "Places Status Indicator" "https://extensions.gnome.org/extension/8/places-status-indicator/"
 extension_install "Removable Drive Menu" "https://extensions.gnome.org/extension/7/removable-drive-menu/"
 extension_install "Caffeine" "https://extensions.gnome.org/extension/517/caffeine/"
+
+
+#==================================
+# Installation Summary
+#==================================
+print_installation_summary
