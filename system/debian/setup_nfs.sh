@@ -5,7 +5,7 @@
 # Source utilities
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
-. "$HOME/.dotfiles/scripts/utils/utils_ubuntu.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_debian.sh"
 
 
 #==================================
@@ -36,9 +36,9 @@ sudo tee /etc/auto.nfs > /dev/null <<EOF
 # Format: mountpoint -options server:/path
 #
 # Example entries (uncomment and modify as needed):
-dlq_pod_data_sync    -fstype=nfs,nconnect=4,proto=tcp,rw,async     172.172.172.251:/dlq_prxmx_pod_data
-dlq_db_data_sync     -fstype=nfs,nconnect=4,proto=tcp,rw,async     172.172.172.251:/dlq_prxmx_vm_data
-nfs_dock_data_sync   -fstype=nfs,nconnect=4,proto=tcp,rw,async     172.172.172.250:/volume2/dashlab_PRXMX_SYN_NFS
+# dlq_pod_data_sync    -fstype=nfs,nconnect=4,proto=tcp,rw,async     172.172.172.251:/dlq_prxmx_pod_data
+# dlq_db_data_sync     -fstype=nfs,nconnect=4,proto=tcp,rw,async     172.172.172.251:/dlq_prxmx_vm_data
+# nfs_dock_data_sync   -fstype=nfs,nconnect=4,proto=tcp,rw,async     172.172.172.250:/volume2/dashlab_PRXMX_SYN_NFS
 EOF
 
 # Restart and enable autofs

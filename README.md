@@ -6,15 +6,17 @@
 
 ## Features
 
-- **Multi-OS Support**: Ubuntu, Windows, macOS, Arch Linux, Alpine Linux
+- **Multi-OS Support**: Ubuntu, Debian, Windows, macOS, Arch Linux, Alpine Linux + 8 more experimental
 - **Centralized Configuration**: All app configs in `config/` directory
 - **Development Machine Detection**: Interactive setup for dev environments
-- **Modern Package Managers**: Native to each OS (apt, winget, brew, pacman, apk)
+- **Modern Package Managers**: Native to each OS (apt, winget, brew, pacman, apk, rpm, etc.)
 - **VSCode Integration**: 50+ curated extensions with centralized settings
 - **Infrastructure Tools**: Docker, Ansible, Terraform across all platforms
 - **Shell Support**: Fish, Zsh, Bash, PowerShell with Starship prompt
 - **NFS Support**: Network file system configuration (Linux)
 - **Security Focused**: Package verification and minimal installations
+- **Error Handling**: Comprehensive logging, retry logic, and user recovery options
+- **Multi-Architecture**: Support for Debian-based, RPM-based, Arch-based, and more
 
 ## Architecture
 
@@ -38,7 +40,7 @@ connect email =133171373+Brahmatruti[domain]users.noreply.github.com
 </details>
 
 
-### Ubuntu 22.04 Jammy Jellyfish (and above)
+### Ubuntu 22.04+ / Debian 11/12
 <details>
  <summary>Download and Setup</summary>
 <pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
@@ -91,11 +93,12 @@ bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/ma
 
 ## Supported Operating Systems
 
-### 🐧 Ubuntu 22.04+
+### 🐧 Ubuntu 22.04+ & Debian 11/12
 - **Package Managers**: APT, Snap, Flatpak
-- **Features**: NFS support, Gnome integration, PPAs
-- **Documentation**: [Ubuntu Guide](system/ubuntu/README.md)
+- **Features**: NFS support, Gnome integration, PPAs (Ubuntu), stable repos (Debian)
+- **Documentation**: [Ubuntu Guide](system/ubuntu/README.md) | [Debian Guide](system/debian/README.md)
 - **Development Tools**: Docker, Ansible, Terraform, Python, Java, Node.js
+- **Error Handling**: Retry logic, logging, user recovery options
 
 ### 🪟 Windows 10/11
 - **Package Managers**: WinGet, Chocolatey
@@ -120,6 +123,35 @@ bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/ma
 - **Features**: Lightweight, security-focused
 - **Documentation**: [Alpine Guide](system/alpine/README.md)
 - **Development Tools**: Docker, Ansible, Terraform, Python, Java, Node.js
+
+### 🔬 **Experimental OS Support**
+The following operating systems are detected and will attempt installation using similar architecture:
+- **RPM-based**: Fedora, RHEL, CentOS, Rocky Linux, AlmaLinux
+- **SUSE-based**: openSUSE, SLES
+- **Arch-based**: Manjaro, EndeavourOS
+- **Gentoo-based**: Gentoo, Funtoo
+- **Independent**: Void Linux
+- **BSD-based**: FreeBSD
+
+## Error Handling & Recovery
+
+### **Comprehensive Error Management**
+- **Automatic Retries**: Failed installations retry up to 3 times
+- **Detailed Logging**: All errors logged with timestamps to `~/.dotfiles/logs/`
+- **User Prompts**: Interactive recovery options when things go wrong
+- **Graceful Degradation**: Continue installation when possible
+
+### **Recovery Options**
+When an error occurs, you'll be presented with:
+1. **Retry**: Attempt the installation again
+2. **Skip**: Continue with other packages
+3. **View Logs**: Check detailed error information
+4. **Exit**: Stop the installation process
+
+### **Log Files**
+- **Location**: `~/.dotfiles/logs/install_YYYYMMDD_HHMMSS.log`
+- **Content**: Timestamp, OS, exit codes, error details
+- **Access**: Use `less` command or any text editor
 
 ## Development Machine Setup
 
