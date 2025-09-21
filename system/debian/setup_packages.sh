@@ -179,10 +179,17 @@ echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *
 #==================================
 print_title "Adding Repositories"
 
-apt_add_repo "Universe" "universe"
-apt_add_repo "Multiverse" "multiverse"
-apt_add_repo "Fish" "ppa:fish-shell/release-3"
-apt_add_repo "Alacritty" "ppa:aslatter/ppa"
+# For Debian, we need to enable backports and use different approach for some packages
+apt_add_repo "Backports" "bookworm-backports"
+apt_add_repo "Contrib" "contrib"
+apt_add_repo "Non-free" "non-free"
+apt_add_repo "Non-free-firmware" "non-free-firmware"
+
+# Fish shell - use Debian package instead of PPA
+print_info "Fish shell: Using Debian package (no PPA needed)"
+
+# Alacritty - use Debian package instead of PPA
+print_info "Alacritty: Using Debian package (no PPA needed)"
 
 
 #==================================
@@ -211,7 +218,9 @@ print_title "Install APT Packages"
 
 apt_install "Build Essential" "build-essential"
 apt_install "Gnome Shell Extensions" "gnome-shell-extensions"
-apt_install "Gnome Shell Extension Manager" "gnome-shell-extension-manager"
+# Note: gnome-shell-extension-manager might not be available in Debian repos
+# Using gnome-shell-extensions which includes the manager functionality
+apt_install "Gnome Shell Extensions" "gnome-shell-extensions"
 apt_install "Gnome Tweaks" "gnome-tweaks"
 
 apt_install "heif-gdk-pixbuf" "heif-gdk-pixbuf"
