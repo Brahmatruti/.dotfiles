@@ -36,7 +36,7 @@ function sreload --description 'Reloads fish configs'
 end
 
 function duptate --description 'Update dotfiles contents from source'
-    bash -c "$(curl -LsS https://raw.github.com/excalith/.dotfiles/main/system/lite/install.sh)"
+    bash -c "$(curl -LsS https://raw.github.com/Brahmatruti/.dotfiles/main/system/lite/install.sh)"
 end
 
 set -g fish_greeting

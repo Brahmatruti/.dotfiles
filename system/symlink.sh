@@ -36,7 +36,7 @@ symlink ~/.dotfiles/config/fish/functions/treload.fish ~/.config/fish/functions/
 symlink ~/.dotfiles/config/fish/functions/supdate.fish ~/.config/fish/functions/supdate.fish
 symlink ~/.dotfiles/config/fish/functions/pupdate.fish ~/.config/fish/functions/pupdate.fish
 
-symlink ~/.dotfiles/config/fish/theme/excalith.fish ~/.config/fish/theme/excalith.fish
+symlink ~/.dotfiles/config/fish/theme/Brahmatruti.fish ~/.config/fish/theme/Brahmatruti.fish
 touch ~/.config/fish/local.fish
 
 # bash config
@@ -88,7 +88,7 @@ fi
 
 # micro configuration
 print_title "micro configuration"
-symlink ~/.dotfiles/config/micro/excalith.micro ~/.config/micro/colorschemes/excalith.micro
+symlink ~/.dotfiles/config/micro/Brahmatruti.micro ~/.config/micro/colorschemes/Brahmatruti.micro
 
 
 # kitty config

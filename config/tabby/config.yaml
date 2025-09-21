@@ -164,7 +164,7 @@ hotkeys:
 terminal:
   searchOptions: {}
   colorScheme:
-    name: Excalith
+    name: Brahmatruti
     foreground: '#e2e2e2'
     background: '#1e212b'
     cursor: '#2ed8a2'
@@ -192,7 +192,7 @@ terminal:
   ligatures: true
   pasteOnMiddleClick: true
   customColorSchemes:
-    - name: Excalith
+    - name: Brahmatruti
       foreground: '#e2e2e2'
       background: '#1e212b'
       cursor: '#2ed8a2'
@@ -217,7 +217,7 @@ terminal:
       selection: '#e8b195'
       selectionForeground: '#121317'
   lightColorScheme:
-    name: Excalith
+    name: Brahmatruti
     foreground: '#e2e2e2'
     background: '#1e212b'
     cursor: '#2ed8a2'

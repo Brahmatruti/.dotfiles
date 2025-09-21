@@ -58,7 +58,7 @@ print_section() {
 #==================================
 # Start Setup
 #==================================
-print_section "Excalith Dotfiles Setup"
+print_section "Brahmatruti Dotfiles Setup"
 
 
 #==================================
@@ -110,10 +110,10 @@ print_title "Update Configs"
 
 print_log "Add fish config"
 mkdir -p $HOME/.config/fish
-wget -O $HOME/.config/fish/config.fish https://raw.githubusercontent.com/excalith/.dotfiles/main/config/fish/lite.config.fish &> /dev/null
+wget -O $HOME/.config/fish/config.fish https://raw.githubusercontent.com/Brahmatruti/.dotfiles/main/config/fish/lite.config.fish &> /dev/null
 
 print_log "Add starship config"
-wget -O $HOME/.config/starship.toml https://raw.githubusercontent.com/excalith/.dotfiles/main/config/starship/starship.toml &> /dev/null
+wget -O $HOME/.config/starship.toml https://raw.githubusercontent.com/Brahmatruti/.dotfiles/main/config/starship/starship.toml &> /dev/null
 
 print_log "Reload fish config"
 fish -c 'source $HOME/.config/fish/config.fish'
@@ -128,15 +128,15 @@ print_log "Request Storage Permission"
 termux-setup-storage
 
 print_log "Update termux properties"
-wget -q -O $HOME/.config/termux/termux.properties/termux.properties https://raw.githubusercontent.com/excalith/.dotfiles/main/config/termux/termux.properties &> /dev/null
+wget -q -O $HOME/.config/termux/termux.properties/termux.properties https://raw.githubusercontent.com/Brahmatruti/.dotfiles/main/config/termux/termux.properties &> /dev/null
 
 mkdir -p $HOME/.termux
 
 print_log "Update termux colors"
-wget -q -O $HOME/.termux/colors.properties https://raw.githubusercontent.com/excalith/.dotfiles/main/config/termux/colors.properties &> /dev/null
+wget -q -O $HOME/.termux/colors.properties https://raw.githubusercontent.com/Brahmatruti/.dotfiles/main/config/termux/colors.properties &> /dev/null
 
 print_log "Update termux font"
-wget -q -O $HOME/.termux/font.ttf https://raw.githubusercontent.com/excalith/.dotfiles/main/config/termux/font.ttf &> /dev/null
+wget -q -O $HOME/.termux/font.ttf https://raw.githubusercontent.com/Brahmatruti/.dotfiles/main/config/termux/font.ttf &> /dev/null
 
 print_log "Reload termux settings"
 termux-reload-settings

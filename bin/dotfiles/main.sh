@@ -132,7 +132,7 @@ df_sub_sync() {
 	elif  [ "$CHOICE" == "$OPT_2" ]; then
 		 if ! repo_has_remote_url; then
 			print_question "Paste your dotfiles repo\n"
-			GIT_ORIGIN=$(gum input --placeholder "git@github.com:excalith/.dotfiles.git")
+			GIT_ORIGIN=$(gum input --placeholder "git@github.com:Brahmatruti/.dotfiles.git")
 			git remote add origin "$GIT_ORIGIN"
 		else
 			print_warning "Git repository already has remote url"
@@ -183,7 +183,7 @@ main () {
 	gum style \
 		--foreground 212 --border-foreground 212 --border rounded \
 		--align center --width 40 --margin "0 0" --padding "0 0" \
-		'Excalith Dotfiles' 'Maintenance'
+		'Brahmatruti Dotfiles' 'Maintenance'
 
 	print_in_green "\n  Select an option\n"
 	df_main

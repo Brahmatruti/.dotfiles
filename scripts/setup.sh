@@ -307,7 +307,7 @@ main() {
         download_utils || exit 1
     fi
 
-    print_section "Excalith Dotfiles Setup"
+    print_section "Brahmatruti Dotfiles Setup"
 
     # Ask user for sudo
     print_title "Sudo Access"
