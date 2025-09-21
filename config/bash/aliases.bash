@@ -32,3 +32,23 @@ alias nupdate="nvim -c \"NvChadUpdate\""
 
 # Update LunarVim
 alias lvupdate="lvim +LvimUpdate +q"
+
+# commands application bin alias
+alias k="kubectl"
+alias kc="kubectx"
+alias kn="kubens"
+alias h="helm"
+alias tf="terraform"
+alias a="ansible"
+alias ap="ansible-playbook"
+alias bp="boilerplate"
+alias prx="proxmox-manager"
+
+
+# path alias
+alias iac="cd /media/nfs_dock_data_sync/DLWorkspace/Dell-dev-Laptop/dl-mono-iac-platform/iac"
+alias platform="cd /media/nfs_dock_data_sync/DLWorkspace/Dell-dev-Laptop/dl-mono-iac-platform/platform"
+alias qpod="cd /media/dlq_pod_data_sync"
+alias qdb="cd /media/dlq_db_data_sync"
+alias spod="cd /media/nfs_dock_data_sync/apps"
+alias mono="cd /media/nfs_dock_data_sync/DLWorkspace/Dell-dev-Laptop/dl-mono-iac-platform"

@@ -89,6 +89,11 @@ function ql()
     esac
 }
 
+# Colormap
+function colormap() {
+  for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}; done
+}
+
 function arasaka() {
     echo "\
                                                          ...--...                                                   \n\
@@ -139,10 +144,15 @@ then
     export -f c_mtr
     export -f arasaka
     export -f pupdate
+    export -f colormap
 fi
 
 # Add HDD aliases for WSL cd into mounted drives
 if [[ $(grep -i Microsoft /proc/version) ]]; then
     alias C="cd /mnt/c"
     alias D="cd /mnt/d"
+    alias E="cd /mnt/e"
+    alias F="cd /mnt/f"
+    alias G="cd /mnt/g"
+    alias P="cd /mnt/p"
 fi
