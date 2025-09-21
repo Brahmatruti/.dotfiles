@@ -1,5 +1,5 @@
 <p align="center">
-	<h1 align="center">Excalith Dotfiles</h1>
+	<h1 align="center">brahmatruti Dotfiles</h1>
 </p>
 
 ![Screenshot of alacritty terminal using fish shell with spaceship prompt and tmux, displaying neofetch, nvim and custom scripts](assets/screenshots/dotfiles.png)
@@ -27,21 +27,21 @@ Depending on your OS, copy and paste the code to start installation. This code w
 ### MacOS Monterey (and above)
 <details>
  <summary>MacOS Monterey (and above)</summary>
-<pre lang="bash">bash -c "$(curl -LsS https://raw.github.com/excalith/.dotfiles/main/scripts/setup.sh)"</pre>
+<pre lang="bash">bash -c "$(curl -LsS https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
 </details>
 
 
 ### Ubuntu 22.04 Jammy Jellyfish (and above)
 <details>
  <summary>Download and Setup</summary>
-<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/excalith/.dotfiles/main/scripts/setup.sh)"</pre>
+<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
 </details>
 
 
 ### Arch Linux
 <details>
  <summary>Download and Setup</summary>
-<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/excalith/.dotfiles/main/scripts/setup.sh)"</pre>
+<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
 </details>
 
 ### Lite Version
@@ -49,7 +49,7 @@ Depending on your OS, copy and paste the code to start installation. This code w
 This is a minimal installation for Termux app on Android.
 
 ```bash
-bash -c "$(curl -LsS https://raw.github.com/excalith/.dotfiles/main/system/lite/install.sh)"
+bash -c "$(curl -LsS https://raw.github.com/brahmatruti/.dotfiles/main/system/lite/install.sh)"
 ```
 
 ### Windows (10 and above)
@@ -65,7 +65,7 @@ Set-ExecutionPolicy Bypass -Scope Process; Set-ExecutionPolicy -Scope CurrentUse
 Download the dotfiles and start setup
 
 ```ps
-Invoke-Expression (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/excalith/.dotfiles/main/scripts/setup.ps1').Content
+Invoke-Expression (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/brahmatruti/.dotfiles/main/scripts/setup.ps1').Content
 ```
 
 Reset Execution Policy (Optional)
@@ -79,7 +79,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Restricted
 To install packages for WSL Ubuntu, run the following command on WSL terminal.
 
 ```bash
-bash -c "$(wget --no-cache -qO - https://raw.github.com/excalith/.dotfiles/main/scripts/setup.sh)"
+bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"
 ```
 
 ## Post-Installation
@@ -91,7 +91,7 @@ Optionally, if you want to set upstream with this repository, you can run the fo
 git init
 
 # Add this repository as remote
-git remote add origin git@github.com:excalith/.dotfiles.git
+git remote add origin git@github.com:brahmatruti/.dotfiles.git
 
 # Fetch the main branch
 git fetch origin main
