@@ -1,0 +1,91 @@
+# VSCode Extensions List
+# This file contains all the VSCode extensions that will be installed
+# Format: extension-id # description
+
+# === Core Language Support ===
+ms-python.python # Python language support
+ms-python.debugpy # Python debugger
+ms-python.vscode-pylance # Python language server
+ms-toolsai.jupyter # Jupyter notebook support
+ms-toolsai.jupyter-keymap # Jupyter keymaps
+ms-toolsai.jupyter-renderers # Jupyter renderers
+ms-toolsai.vscode-jupyter-cell-tags # Jupyter cell tags
+ms-toolsai.vscode-jupyter-slideshow # Jupyter slideshow
+ms-vscode.powershell # PowerShell support
+vscjava.vscode-java-pack # Java language support
+bmewburn.vscode-intelephense-client # PHP language support
+fabiolanciotti.codeigniter-reference-explorer # CodeIgniter support
+small.php-ci # PHP CodeIgniter intellisense
+ms-vscode.cpptools # C/C++ language support
+ms-vscode.cpptools-extension-pack # C/C++ extension pack
+ms-vscode.cpptools-themes # C/C++ themes
+ms-vscode.cmake-tools # CMake tools
+twxs.cmake # CMake language support
+ms-vscode.makefile-tools # Makefile support
+redhat.java # Java support (alternative)
+
+# === Remote & Container Development ===
+ms-vscode-remote.remote-containers # Remote containers
+ms-vscode-remote.remote-wsl # WSL support
+ms-vscode-remote.remote-ssh # Remote SSH
+ms-vscode-remote.remote-ssh-edit # Remote SSH editing
+ms-vscode-remote.vscode-remote-extensionpack # Remote extension pack
+ms-vscode.remote-explorer # Remote explorer
+ms-vscode.remote-server # Remote server
+
+# === DevOps / Terraform / Cloud ===
+ms-azuretools.vscode-docker # Docker support
+ms-azuretools.vscode-containers # Container support
+hashicorp.terraform # Terraform support
+redhat.ansible # Ansible support
+redhat.vscode-yaml # YAML support
+redhat.vscode-xml # XML support
+redhat.vscode-json # JSON support
+
+# === Git, GitHub and Collaboration ===
+eamodio.gitlens # Git lens
+github.codespaces # GitHub Codespaces
+github.copilot # GitHub Copilot
+github.copilot-chat # GitHub Copilot Chat
+github.vscode-github-actions # GitHub Actions
+github.remotehub # GitHub Remote Hub
+github.vscode-pull-request-github # GitHub Pull Requests
+ms-vscode.azure-repos # Azure Repos
+vscode.vscode-speech # Speech support
+
+# === UI, Themes, Icons ===
+PKief.material-icon-theme # Material Icon Theme
+zhuangtongfa.material-theme # Material Theme
+oderwat.indent-rainbow # Indent Rainbow
+usernamehw.errorlens # Error Lens
+
+# === HTML / CSS / Web ===
+ecmel.vscode-html-css # HTML/CSS support
+formulahendry.auto-rename-tag # Auto rename tags
+pranaygp.vscode-css-peek # CSS peek
+
+# === Markdown / Docs ===
+bierner.github-markdown-preview # GitHub Markdown preview
+davidanson.vscode-markdownlint # Markdown lint
+yzhang.markdown-all-in-one # Markdown all-in-one
+
+# === Productivity / Formatting ===
+esbenp.prettier-vscode # Prettier formatter
+gruntfuggly.todo-tree # Todo tree
+ue.alphabetical-sorter # Alphabetical sorter
+aaron-bond.better-comments # Better comments
+EditorConfig.EditorConfig # EditorConfig support
+streetsidesoftware.code-spell-checker # Spell checker
+
+# === Tools / Runners ===
+formulahendry.code-runner # Code runner
+ms-vscode.live-server # Live server
+rangav.vscode-thunder-client # Thunder client
+
+# === AI Coding Assistants ===
+github.copilot # GitHub Copilot (main)
+saoudrizwan.claude-dev # Claude AI support
+# codeium.codeium # Codeium (alternative - uncomment if preferred)
+
+# === Collaboration (Optional) ===
+ms-vsliveshare.vsliveshare # Live Share

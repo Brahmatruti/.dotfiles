@@ -14,6 +14,7 @@ declare DOTFILES_UTILS_URL="https://raw.githubusercontent.com/$GITHUB_REPOSITORY
 declare DOTFILES_DIR="$HOME/.dotfiles"
 declare MINIMUM_MACOS_VERSION="12.0"
 declare MINIMUM_UBUNTU_VERSION="20.04"
+declare MINIMUM_DEBIAN_VERSION="11.0"
 
 #==================================
 # Helper Functions
@@ -135,12 +136,160 @@ verify_os() {
         print_success "$os_name is supported"
         return 0
 
+    # Check if the OS is `Debian` and supported
+    elif [ "$os_name" == "debian" ]; then
+        if is_supported_version "$os_version" "$MINIMUM_DEBIAN_VERSION"; then
+            print_success "$os_name $os_version is supported"
+            return 0
+        else
+            print_error "Minimum Debian $MINIMUM_DEBIAN_VERSION is required (current is $os_version)"
+        fi
+
+    # Check if the OS is RPM-based (Fedora, RHEL, CentOS, Rocky, AlmaLinux)
+    elif [[ "$os_name" =~ ^(fedora|rhel|centos|rocky|almalinux)$ ]]; then
+        print_warning "$os_name is detected but not fully supported yet"
+        print_info "Attempting to use similar architecture..."
+        return 0
+
+    # Check if the OS is SUSE-based (openSUSE, SLES)
+    elif [[ "$os_name" =~ ^(opensuse|sles)$ ]]; then
+        print_warning "$os_name is detected but not fully supported yet"
+        print_info "Attempting to use similar architecture..."
+        return 0
+
+    # Check if the OS is Arch-based (Manjaro, EndeavourOS)
+    elif [[ "$os_name" =~ ^(manjaro|endeavouros)$ ]]; then
+        print_success "$os_name is supported (Arch-based)"
+        return 0
+
+    # Check if the OS is Gentoo-based (Gentoo, Funtoo)
+    elif [[ "$os_name" =~ ^(gentoo|funtoo)$ ]]; then
+        print_warning "$os_name is detected but not fully supported yet"
+        print_info "Attempting to use similar architecture..."
+        return 0
+
+    # Check if the OS is Void Linux
+    elif [ "$os_name" == "void" ]; then
+        print_warning "$os_name is detected but not fully supported yet"
+        print_info "Attempting to use similar architecture..."
+        return 0
+
+    # Check if the OS is FreeBSD
+    elif [ "$os_name" == "freebsd" ]; then
+        print_warning "$os_name is detected but not fully supported yet"
+        print_info "Attempting to use similar architecture..."
+        return 0
+
     # Exit if not supported OS
     else
-        print_error "$os_name is not supported. This dotfiles are intended for MacOS, Ubuntu and Arch"
+        print_error "$os_name is not supported."
+        print_info "Supported OS types:"
+        print_option "•" "macOS (12.0+)"
+        print_option "•" "Ubuntu (20.04+)"
+        print_option "•" "Debian (11.0+)"
+        print_option "•" "Arch Linux"
+        print_option "•" "Alpine Linux"
+        print_option "•" "Windows WSL (Ubuntu)"
+        print_option "•" "Fedora/RHEL/CentOS/Rocky/AlmaLinux (experimental)"
+        print_option "•" "openSUSE/SLES (experimental)"
+        print_option "•" "Manjaro/EndeavourOS (Arch-based)"
+        print_option "•" "Gentoo/Funtoo (experimental)"
+        print_option "•" "Void Linux (experimental)"
+        print_option "•" "FreeBSD (experimental)"
     fi
 
     return 1
+}
+
+#==================================
+# Error Handling Functions
+#==================================
+handle_installation_error() {
+    local os_name="$1"
+    local exit_code="$2"
+    local log_file="$HOME/.dotfiles/logs/install_$(date +%Y%m%d_%H%M%S).log"
+
+    mkdir -p "$HOME/.dotfiles/logs"
+
+    print_error "Installation failed with exit code $exit_code"
+    print_warning "Check logs at: $log_file"
+
+    # Log the error
+    echo "=== Installation Error Log ===" > "$log_file"
+    echo "OS: $os_name" >> "$log_file"
+    echo "Timestamp: $(date)" >> "$log_file"
+    echo "Exit Code: $exit_code" >> "$log_file"
+    echo "============================" >> "$log_file"
+
+    # Ask user for action
+    ask_for_error_action "$os_name" "$log_file"
+}
+
+ask_for_error_action() {
+    local os_name="$1"
+    local log_file="$2"
+
+    print_question "What would you like to do?"
+    print_option "1" "Retry installation"
+    print_option "2" "Skip this step and continue"
+    print_option "3" "View error log"
+    print_option "4" "Exit installation"
+
+    read -r choice
+    case "$choice" in
+        1) install_with_error_handling "$os_name" ;;
+        2) print_warning "Skipping $os_name installation" ;;
+        3) less "$log_file" ;;
+        4) exit 1 ;;
+        *) print_error "Invalid choice. Exiting." ; exit 1 ;;
+    esac
+}
+
+install_with_error_handling() {
+    local os_name="$1"
+    local install_script="$HOME/.dotfiles/system/$os_name/install.sh"
+
+    if [ -f "$install_script" ]; then
+        if . "$install_script"; then
+            print_success "Installation completed successfully"
+        else
+            handle_installation_error "$os_name" "$?"
+        fi
+    else
+        print_error "Installation script not found: $install_script"
+        handle_missing_script "$os_name"
+    fi
+}
+
+handle_missing_script() {
+    local os_name="$1"
+
+    print_error "Installation script for $os_name not found"
+    print_info "Available installation scripts:"
+
+    for dir in "$HOME/.dotfiles/system"/*/; do
+        if [ -d "$dir" ] && [ -f "$dir/install.sh" ]; then
+            local dir_name=$(basename "$dir")
+            print_option "•" "$dir_name"
+        fi
+    done
+
+    print_question "Would you like to try a different OS installation? (y/n)"
+    read -r choice
+    if [[ "$choice" =~ ^[Yy]$ ]]; then
+        print_info "Available options:"
+        select os_option in "$HOME/.dotfiles/system"/*/; do
+            if [ -d "$os_option" ] && [ -f "$os_option/install.sh" ]; then
+                local selected_os=$(basename "$os_option")
+                print_info "Attempting installation for $selected_os..."
+                install_with_error_handling "$selected_os"
+                break
+            fi
+        done
+    else
+        print_error "Installation cannot continue without appropriate script"
+        exit 1
+    fi
 }
 
 #==================================
@@ -174,8 +323,8 @@ main() {
     printf "%s" "${BASH_SOURCE[0]}" | grep "setup.sh" &> /dev/null \
         || download_dotfiles
 
-    # Start installation
-    . "$HOME/.dotfiles/system/$(get_os)/install.sh"
+    # Start installation with error handling
+    install_with_error_handling "$(get_os)"
 
     # Ask for git credentials
     . "$HOME/.dotfiles/scripts/utils/generate_git_creds.sh"

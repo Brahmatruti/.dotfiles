@@ -5,7 +5,150 @@
 # Source utilities
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
-. "$HOME/.dotfiles/scripts/utils/utils_ubuntu.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_debian.sh"
+
+#==================================
+# Error Handling Functions
+#==================================
+apt_install_with_retry() {
+    local description="$1"
+    local package="$2"
+    local max_retries=3
+    local retry_count=0
+
+    while [ $retry_count -lt $max_retries ]; do
+        if execute "sudo apt-get install -y $package" "$description"; then
+            return 0
+        else
+            retry_count=$((retry_count + 1))
+            print_warning "Attempt $retry_count failed for $description"
+
+            if [ $retry_count -lt $max_retries ]; then
+                print_info "Retrying in 5 seconds..."
+                sleep 5
+            fi
+        fi
+    done
+
+    print_error "Failed to install $description after $max_retries attempts"
+    return 1
+}
+
+snap_install_with_retry() {
+    local description="$1"
+    local package="$2"
+    local max_retries=3
+    local retry_count=0
+
+    while [ $retry_count -lt $max_retries ]; do
+        if execute "sudo snap install $package" "$description"; then
+            return 0
+        else
+            retry_count=$((retry_count + 1))
+            print_warning "Attempt $retry_count failed for $description"
+
+            if [ $retry_count -lt $max_retries ]; then
+                print_info "Retrying in 5 seconds..."
+                sleep 5
+            fi
+        fi
+    done
+
+    print_error "Failed to install $description after $max_retries attempts"
+    return 1
+}
+
+flatpak_install_with_retry() {
+    local description="$1"
+    local package="$2"
+    local max_retries=3
+    local retry_count=0
+
+    while [ $retry_count -lt $max_retries ]; do
+        if execute "flatpak install -y flathub $package" "$description"; then
+            return 0
+        else
+            retry_count=$((retry_count + 1))
+            print_warning "Attempt $retry_count failed for $description"
+
+            if [ $retry_count -lt $max_retries ]; then
+                print_info "Retrying in 5 seconds..."
+                sleep 5
+            fi
+        fi
+    done
+
+    print_error "Failed to install $description after $max_retries attempts"
+    return 1
+}
+
+#==================================
+# Enhanced Package Installation
+#==================================
+apt_install() {
+    local description="$1"
+    local package="$2"
+
+    if ! dpkg -l "$package" 2>/dev/null | grep -q "^ii"; then
+        print_info "Installing $description..."
+        if apt_install_with_retry "$description" "$package"; then
+            print_success "$description installed successfully"
+        else
+            print_error "Failed to install $description"
+            handle_package_error "$description" "$package"
+        fi
+    else
+        print_success "$description is already installed"
+    fi
+}
+
+snap_install() {
+    local description="$1"
+    local package="$2"
+
+    if ! snap list "$package" 2>/dev/null | grep -q "$package"; then
+        print_info "Installing $description..."
+        if snap_install_with_retry "$description" "$package"; then
+            print_success "$description installed successfully"
+        else
+            print_error "Failed to install $description"
+            handle_package_error "$description" "$package"
+        fi
+    else
+        print_success "$description is already installed"
+    fi
+}
+
+flatpak_install() {
+    local description="$1"
+    local package="$2"
+
+    if ! flatpak list --app | grep -q "$package"; then
+        print_info "Installing $description..."
+        if flatpak_install_with_retry "$description" "$package"; then
+            print_success "$description installed successfully"
+        else
+            print_error "Failed to install $description"
+            handle_package_error "$description" "$package"
+        fi
+    else
+        print_success "$description is already installed"
+    fi
+}
+
+handle_package_error() {
+    local description="$1"
+    local package="$2"
+
+    print_warning "Package $description ($package) failed to install"
+    print_question "Would you like to continue with other packages? (y/n)"
+    read -r choice
+
+    if [[ ! "$choice" =~ ^[Yy]$ ]]; then
+        print_error "Installation cannot continue. Exiting."
+        exit 1
+    fi
+}
 
 
 #==================================
@@ -27,30 +170,19 @@ wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sud
 echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list &> /dev/null
 sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
 
-# Mono
-sudo mkdir -p /etc/apt/keyrings
-execute "sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF" "Mono (Add Key)"
-
 # Charm
 curl -fsSL --silent https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg &> /dev/null
 echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list &> /dev/null
 
 #==================================
-# Add repositories to apt
+# Add repositories to apt
 #==================================
 print_title "Adding Repositories"
 
 apt_add_repo "Universe" "universe"
 apt_add_repo "Multiverse" "multiverse"
 apt_add_repo "Fish" "ppa:fish-shell/release-3"
-apt_add_repo "OBS Studio" "ppa:obsproject/obs-studio"
 apt_add_repo "Alacritty" "ppa:aslatter/ppa"
-
-
-#==================================
-# Add sources to APT
-#==================================
-# print_title "Adding Sources"
 
 
 #==================================
@@ -67,7 +199,6 @@ apt_upgrade
 #==================================
 print_title "Install Package Managers"
 
-apt_install "nala" "nala"
 apt_install "flatpak" "flatpak"
 apt_install "flatpak gnome plugin" "gnome-software-plugin-flatpak"
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo >/dev/null 2>&1
@@ -91,7 +222,7 @@ apt_install "ca-certificates" "ca-certificates"
 apt_install "dirmngr" "dirmngr"
 apt_install "curl" "curl"
 apt_install "wget" "wget"
-apt_install "pyhton3" "python3"
+apt_install "python3" "python3"
 apt_install "git" "git"
 apt_install "git-all" "git-all"
 apt_install "git-lfs" "git-lfs"
@@ -122,7 +253,7 @@ apt_install "neofetch" "neofetch"
 
 apt_install "ranger" "ranger"
 apt_install "midnight-commander" "mc"
-apt_install "node" "nodejs"
+apt_install "nodejs" "nodejs"
 apt_install "yarn" "yarn"
 apt_install "gcc" "gcc"
 apt_install "micro" "micro"
@@ -134,7 +265,6 @@ apt_install "nudoku" "nudoku"
 apt_install "Alacritty" "alacritty"
 apt_install "Caffeine" "caffeine"
 apt_install "Notion" "notion"
-apt_install "OBS Studio" "obs-studio"
 
 #==================================
 # Install Development Tools
@@ -191,13 +321,6 @@ snap_install "GitKraken" "gitkraken"
 snap_install "VS Code" "code"
 snap_install "1Password" "1password"
 
-# #==================================
-# # Install Cargo packages
-# #==================================
-# print_title "Install Cargo Packages"
-
-# cargo_install "exa" "exa"
-
 #==================================
 # Install Flatpak Packages
 #==================================
@@ -227,25 +350,12 @@ print_title "Install Packages From Source"
 # Tmux Plugin Manager (TPM)
 execute "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm" "TMUX Plugin Manager (TPM)"
 
-# # Kitty
-# curl -L --silent https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-# ln -s ~/.local/kitty.app/bin/kitty ~/.local/bin/
-# cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
-# sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/.local/share/applications/kitty*.desktop
-# sed -i "s|Exec=kitty|Exec=/home/$USER/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
-
 # LazyGit
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep '"tag_name":' |  sed -E 's/.*"v*([^"]+)".*/\1/')
 curl -Lo lazygit.tar.gz --silent --output /dev/null "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
 rm -rf lazygit.tar.gz
 print_success "lazygit"
-
-# NvChad
-# rm -rf ~/.config/nvim
-# rm -rf ~/.local/share/nvim
-# rm -rf ~/.cache/nvim
-# execute "git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1" "NvChad"
 
 # Reversal Icons
 wget -qO ~/reversal.tar.gz https://github.com/yeyushengfan258/Reversal-icon-theme/archive/master.tar.gz

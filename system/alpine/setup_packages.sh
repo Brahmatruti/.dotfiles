@@ -65,3 +65,45 @@ sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
 rm -rf lazygit.tar.gz
 print_success "lazygit"
 
+#==================================
+# Install Development Tools (from Ubuntu equivalent)
+#==================================
+print_title "Install Development Tools"
+
+# Docker
+apk_install "Docker" "docker"
+apk_install "Docker Compose" "docker-compose"
+execute "sudo addgroup $USER docker" "Add User to Docker Group"
+
+# Ansible & Terraform
+apk_install "Ansible" "ansible"
+execute "wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg" "HashiCorp GPG Key"
+execute 'echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list' "HashiCorp Repository"
+apk_update
+apk_install "Terraform" "terraform"
+
+# NVM, Node.js, npm, JS tools
+execute "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash" "Install NVM"
+execute 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm install --lts && nvm alias default "lts/*" && nvm use default' "Install Node.js LTS"
+execute 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && npm install -g npm yarn pnpm eslint prettier' "Install NPM Tools"
+
+# OpenJDK
+apk_install "OpenJDK 17" "openjdk17"
+
+# Python development tools
+apk_install "Python3 venv" "py3-virtualenv"
+apk_install "Python3 pip" "py3-pip"
+
+# Additional development packages
+apk_install "Build tools" "build-base"
+apk_install "SSL dev" "openssl-dev"
+apk_install "jq" "jq"
+apk_install "unzip" "unzip"
+apk_install "make" "make"
+apk_install "cmake" "cmake"
+apk_install "gcc" "gcc"
+apk_install "g++" "g++"
+
+# NFS (Linux specific)
+apk_install "NFS common" "nfs-utils"
+apk_install "Autofs" "autofs"

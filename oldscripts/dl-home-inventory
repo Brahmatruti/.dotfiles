@@ -1,0 +1,73 @@
+# Inventory for clcreative-home network
+#
+# Please only use this as an example!
+
+
+# Ubuntu Production and Demo Servers
+
+[srv-prod]
+srv-prod-1.home.brahmatruti.com
+srv-prod-2.home.brahmatruti.com
+srv-prod-3.home.brahmatruti.com
+
+[srv-demo]
+srv-demo-1.home.brahmatruti.com
+srv-demo-2.home.brahmatruti.com
+
+[srv-prod-1]
+srv-prod-1.home.brahmatruti.com
+
+[srv-prod-2]
+srv-prod-2.home.brahmatruti.com
+
+[srv-prod-3]
+srv-prod-3.home.brahmatruti.com
+
+[srv-demo-1]
+srv-demo-1.home.brahmatruti.com
+
+[srv-demo-2]
+srv-demo-2.home.brahmatruti.com
+
+# Kubernetes Production and Demo Servers
+
+[ksrv-prod]
+ksrv-prod-1.home.brahmatruti.com
+ksrv-prod-2.home.brahmatruti.com
+ksrv-prod-3.home.brahmatruti.com
+
+[ksrv-prod-1]
+ksrv-prod-1.home.brahmatruti.com
+
+[ksrv-prod-2]
+ksrv-prod-2.home.brahmatruti.com
+
+[ksrv-prod-3]
+ksrv-prod-3.home.brahmatruti.com
+
+[ksrv-demo-1]
+ksrv-demo-1.home.brahmatruti.com
+
+[kube-prod-1]
+ksrv-prod-1.home.brahmatruti.com
+ksrv-prod-2.home.brahmatruti.com
+ksrv-prod-3.home.brahmatruti.com
+
+[kube-demo-1]
+ksrv-demo-1.home.brahmatruti.com
+
+# Proxmox and Nas machine
+
+[prx-prod-1]
+prx-prod-1.home.brahmatruti.com
+
+[nas-prod-1]
+nas-prod-1.home.brahmatruti.com
+
+# Windows Servers and Clients
+
+[wdc-prod-1]
+wdc-prod-1.home.brahmatruti.com
+
+[win-prod-1]
+win-prod-1.home.brahmatruti.com

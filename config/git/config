@@ -138,3 +138,8 @@
 	icontheme = dark
 [include]
     path = ~/.config/git/.gitconfig.local
+   
+
+Host *
+    UseKeychain yes
+    AddKeysToAgent yes

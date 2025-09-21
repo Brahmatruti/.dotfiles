@@ -94,6 +94,81 @@ brew_install "skhd" "koekeishiya/formulae/skhd"
 brew_install "cmatrix" "cmatrix"
 brew_install "nudoku" "nudoku"
 
+#==================================
+# Install Development Tools (from old scripts)
+#==================================
+print_title "Installing Development Tools"
+
+# Ansible & Terraform
+brew_install "Ansible" "ansible"
+brew_install "Ansible Lint" "ansible-lint"
+brew_install "Terraform" "terraform"
+brew_install "OpenTofu" "opentofu"
+
+# Docker
+brew_install "Docker" "docker"
+
+# Python
+brew_install "Python 3.13" "python@3.13"
+
+# Additional development tools
+brew_install "jq" "jq"
+brew_install "yq" "yq"
+brew_install "yamllint" "yamllint"
+brew_install "helm" "helm"
+brew_install "k3sup" "k3sup"
+brew_install "kubectx" "kubectx"
+brew_install "kubernetes-cli" "kubernetes-cli"
+brew_install "nmap" "nmap"
+brew_install "iperf3" "iperf3"
+brew_install "telnet" "telnet"
+brew_install "wakeonlan" "wakeonlan"
+brew_install "vhs" "vhs"
+brew_install "gh" "gh"
+brew_install "glab" "glab"
+brew_install "influxdb-cli" "influxdb-cli"
+brew_install "httpie" "httpie"
+brew_install "hugo" "hugo"
+brew_install "yadm" "yadm"
+brew_install "direnv" "direnv"
+brew_install "zoxide" "zoxide"
+brew_install "duf" "duf"
+brew_install "dust" "dust"
+brew_install "bottom" "bottom"
+brew_install "cmatrix" "cmatrix"
+brew_install "teleport" "teleport"
+brew_install "packer" "packer"
+
+# Node.js (if not already installed)
+brew_install "Node" "node"
+
+# Java
+brew_install "OpenJDK" "openjdk"
+
+# Additional casks from old scripts
+print_title "Installing Additional Casks"
+brew_install "1Password CLI" "1password-cli" "--cask"
+brew_install "Alt-Tab" "alt-tab" "--cask"
+brew_install "CommandPost" "commandpost" "--cask"
+brew_install "Detail" "detail" "--cask"
+brew_install "Discord" "discord" "--cask"
+brew_install "GitHub" "github" "--cask"
+brew_install "Grammarly Desktop" "grammarly-desktop" "--cask"
+brew_install "Google Chrome" "google-chrome" "--cask"
+brew_install "HTTPie" "httpie" "--cask"
+brew_install "MarkEdit" "markedit" "--cask"
+brew_install "Notion" "notion" "--cask"
+brew_install "Notion Calendar" "notion-calendar" "--cask"
+brew_install "OrbStack" "orbstack" "--cask"
+brew_install "PowerShell" "powershell" "--cask"
+brew_install "Raindrop.io" "raindropio" "--cask"
+brew_install "Raycast" "raycast" "--cask"
+brew_install "Remote Desktop Manager" "remote-desktop-manager" "--cask"
+brew_install "Slack" "slack" "--cask"
+brew_install "Spotify" "spotify" "--cask"
+brew_install "Warp" "warp" "--cask"
+brew_install "Zoom" "zoom" "--cask"
+
 
 #==================================
 # Brew Cask

@@ -92,3 +92,32 @@ Install-WingetPackage "SpeedTest" "Ookla.Speedtest.CLI"
 Install-WingetPackage "Deluge" "DelugeTeam.Deluge"
 Install-WingetPackage "Bitdefender" "Bitdefender.Bitdefender"
 Install-WingetPackage "NeoFetch" "nepnep.neofetch-win"
+
+#==================================
+# Development Tools (from old scripts)
+#==================================
+Write-Title "Development Tools"
+Install-WingetPackage "Docker Desktop" "Docker.DockerDesktop"
+Install-WingetPackage "Python 3.12" "Python.Python.3.12"
+Install-WingetPackage "NodeJS" "OpenJS.NodeJS"
+Install-WingetPackage "Git" "Git.Git"
+Install-WingetPackage "Git LFS" "GitHub.GitLFS"
+
+# Cloud and Infrastructure Tools
+Write-Title "Cloud and Infrastructure Tools"
+Install-WingetPackage "Azure CLI" "Microsoft.AzureCLI"
+Install-WingetPackage "AWS CLI" "Amazon.AWSCLI"
+
+# Additional Development Tools
+Write-Title "Additional Development Tools"
+Install-WingetPackage "GitHub Desktop" "GitHub.GitHubDesktop"
+Install-WingetPackage "pCloud Drive" "pCloudAG.pCloudDrive"
+Install-WingetPackage "Google Drive" "Google.Drive"
+Install-WingetPackage "MEGASync" "Mega.MEGASync"
+Install-WingetPackage "QNAP Qsync" "QNAP.Qsync"
+Install-WingetPackage "MobaXterm" "Mobatek.MobaXterm"
+
+# AI Tools (from old scripts)
+Write-Title "AI Tools"
+Install-WingetPackage "NodeJS LTS" "OpenJS.NodeJS.LTS"
+# Note: Google Gemini CLI will be installed via npm after Node.js
