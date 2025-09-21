@@ -42,7 +42,7 @@ print_warning() {
     echo -e "${YELLOW}⚠${NC} $1"
 }
 
-print_info() {
+print_title() {
     echo -e "${BLUE}ℹ${NC} $1"
 }
 
@@ -141,7 +141,7 @@ test_function_dependencies() {
         "print_success"
         "print_warning"
         "print_error"
-        "print_info"
+        "print_title"
         "print_question"
         "execute"
         "apt_update"

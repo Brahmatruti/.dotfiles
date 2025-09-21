@@ -32,7 +32,7 @@ print_success() {
     echo -e "${GREEN}✓${NC} $1"
 }
 
-print_info() {
+print_title() {
     echo -e "${BLUE}ℹ${NC} $1"
 }
 

@@ -42,7 +42,7 @@ print_warning() {
     echo -e "${YELLOW}⚠${NC} $1"
 }
 
-print_info() {
+print_title() {
     echo -e "${BLUE}ℹ${NC} $1"
 }
 
@@ -65,7 +65,7 @@ test_user_config_creation() {
     cp "$HOME/.dotfiles/scripts/utils/utils_user_config.sh" .
 
     # Test configuration collection (simulated)
-    print_info "Testing configuration collection functions..."
+    print_title "Testing configuration collection functions..."
 
     # Source the utility
     . "./utils_user_config.sh"
@@ -107,7 +107,7 @@ test_category_system() {
     # Source the utility
     . "$HOME/.dotfiles/scripts/utils/utils_user_config.sh"
 
-    print_info "Testing software categories..."
+    print_title "Testing software categories..."
 
     # Test category listing
     categories=$(get_software_categories)
@@ -175,7 +175,7 @@ test_configuration_workflow() {
     print_header "Testing Configuration Workflow"
 
     # Create a test configuration
-    print_info "Creating test configuration..."
+    print_title "Creating test configuration..."
 
     # Simulate user responses
     export GIT_USER_NAME="Test User"
@@ -215,7 +215,7 @@ test_package_grouping() {
     # Source utilities
     . "$HOME/.dotfiles/scripts/utils/utils_user_config.sh"
 
-    print_info "Testing package grouping..."
+    print_title "Testing package grouping..."
 
     # Test that packages are properly grouped
     local essential_packages=$(get_category_packages "Essential Tools")

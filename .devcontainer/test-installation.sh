@@ -42,7 +42,7 @@ print_warning() {
     echo -e "${YELLOW}⚠${NC} $1"
 }
 
-print_info() {
+print_title() {
     echo -e "${BLUE}ℹ${NC} $1"
 }
 

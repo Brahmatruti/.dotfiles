@@ -186,10 +186,10 @@ apt_add_repo "Non-free" "non-free"
 apt_add_repo "Non-free-firmware" "non-free-firmware"
 
 # Fish shell - use Debian package instead of PPA
-print_info "Fish shell: Using Debian package (no PPA needed)"
+print_title "Fish shell: Using Debian package (no PPA needed)"
 
 # Alacritty - use Debian package instead of PPA
-print_info "Alacritty: Using Debian package (no PPA needed)"
+print_title "Alacritty: Using Debian package (no PPA needed)"
 
 
 #==================================
@@ -273,7 +273,7 @@ apt_install "ffmpeg" "ffmpeg"
 apt_install "nudoku" "nudoku"
 
 # Note: Alacritty not available in Debian, using gnome-terminal instead
-print_info "Terminal: Using gnome-terminal (Alacritty not available in Debian)"
+print_title "Terminal: Using gnome-terminal (Alacritty not available in Debian)"
 apt_install "gnome-terminal" "gnome-terminal"
 apt_install "Caffeine" "caffeine"
 apt_install "Notion" "notion"
