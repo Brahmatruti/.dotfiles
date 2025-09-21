@@ -156,6 +156,98 @@ else {
 
 
 #==================================
+# Error Handling Functions
+#==================================
+function Install-WingetPackageWithRetry {
+    param(
+        [string]$Description,
+        [string]$PackageId,
+        [string]$Source = "winget"
+    )
+
+    $maxRetries = 2
+    $retryCount = 0
+
+    while ($retryCount -lt $maxRetries) {
+        try {
+            if ($Source -eq "msstore") {
+                Write-Host "⟲ Installing $Description..." -ForegroundColor Cyan
+                winget install --id $PackageId --source msstore --accept-package-agreements --accept-source-agreements | Out-Null
+            } else {
+                Write-Host "⟲ Installing $Description..." -ForegroundColor Cyan
+                winget install --id $PackageId --accept-package-agreements --accept-source-agreements | Out-Null
+            }
+
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "✓ $Description installed successfully" -ForegroundColor Green
+                return $true
+            } else {
+                throw "Installation failed with exit code $LASTEXITCODE"
+            }
+        }
+        catch {
+            $retryCount++
+            Write-Host "⚠ Attempt $retryCount failed for $Description" -ForegroundColor Yellow
+
+            if ($retryCount -lt $maxRetries) {
+                Write-Host "⟲ Retrying in 3 seconds..." -ForegroundColor Cyan
+                Start-Sleep -Seconds 3
+            }
+        }
+    }
+
+    Write-Host "✗ Failed to install $Description after $maxRetries attempts" -ForegroundColor Red
+    return $false
+}
+
+function Handle-PackageError {
+    param(
+        [string]$Description,
+        [string]$PackageId
+    )
+
+    Write-Host "⚠ Package $Description ($PackageId) failed to install" -ForegroundColor Yellow
+    Write-Host "❓ Would you like to continue with other packages? (Y/n): " -ForegroundColor Cyan -NoNewline
+
+    # Auto-continue with 3-second timeout, default "yes"
+    try {
+        $response = Read-Host -Timeout 3
+    }
+    catch {
+        Write-Host ""
+        Write-Host "ℹ No response received within 3 seconds, continuing automatically..." -ForegroundColor Blue
+        $response = "y"
+    }
+
+    if ($response -notmatch "^[Yy]$") {
+        Write-Host "✗ Installation cannot continue. Exiting." -ForegroundColor Red
+        exit 1
+    }
+}
+
+#==================================
+# Enhanced Package Installation
+#==================================
+function Install-WingetPackage {
+    param(
+        [string]$Description,
+        [string]$PackageId,
+        [string]$Source = "winget"
+    )
+
+    try {
+        $result = Install-WingetPackageWithRetry -Description $Description -PackageId $PackageId -Source $Source
+        if (-not $result) {
+            Handle-PackageError -Description $Description -PackageId $PackageId
+        }
+    }
+    catch {
+        Write-Host "✗ Error installing $Description`: $_" -ForegroundColor Red
+        Handle-PackageError -Description $Description -PackageId $PackageId
+    }
+}
+
+#==================================
 # Installation Summary
 #==================================
 Write-InstallationSummary

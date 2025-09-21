@@ -233,6 +233,114 @@ extension_install "Caffeine" "https://extensions.gnome.org/extension/517/caffein
 
 
 #==================================
+# Error Handling Functions
+#==================================
+pacman_install_with_retry() {
+    local description="$1"
+    local package="$2"
+    local max_retries=2
+    local retry_count=0
+
+    while [ $retry_count -lt $max_retries ]; do
+        if execute "sudo pacman -S --noconfirm $package" "$description"; then
+            return 0
+        else
+            retry_count=$((retry_count + 1))
+            print_warning "Attempt $retry_count failed for $description"
+
+            if [ $retry_count -lt $max_retries ]; then
+                print_title "Retrying in 3 seconds..."
+                sleep 3
+            fi
+        fi
+    done
+
+    print_error "Failed to install $description after $max_retries attempts"
+    return 1
+}
+
+yay_install_with_retry() {
+    local description="$1"
+    local package="$2"
+    local max_retries=2
+    local retry_count=0
+
+    while [ $retry_count -lt $max_retries ]; do
+        if execute "yay -S --noconfirm $package" "$description"; then
+            return 0
+        else
+            retry_count=$((retry_count + 1))
+            print_warning "Attempt $retry_count failed for $description"
+
+            if [ $retry_count -lt $max_retries ]; then
+                print_title "Retrying in 3 seconds..."
+                sleep 3
+            fi
+        fi
+    done
+
+    print_error "Failed to install $description after $max_retries attempts"
+    return 1
+}
+
+handle_package_error() {
+    local description="$1"
+    local package="$2"
+
+    print_warning "Package $description ($package) failed to install"
+    print_question "Would you like to continue with other packages? (Y/n)"
+
+    # Auto-continue with 3-second timeout, default "yes"
+    read -t 3 -r choice
+    if [ $? -gt 128 ]; then
+        print_info "No response received within 3 seconds, continuing automatically..."
+        choice="y"
+    fi
+
+    if [[ ! "$choice" =~ ^[Yy]$ ]]; then
+        print_error "Installation cannot continue. Exiting."
+        exit 1
+    fi
+}
+
+#==================================
+# Enhanced Package Installation
+#==================================
+pacman_install() {
+    local description="$1"
+    local package="$2"
+
+    if ! pacman -Q "$package" 2>/dev/null | grep -q "^$package"; then
+        print_title "Installing $description..."
+        if pacman_install_with_retry "$description" "$package"; then
+            print_success "$description installed successfully"
+        else
+            print_error "Failed to install $description"
+            handle_package_error "$description" "$package"
+        fi
+    else
+        print_success "$description is already installed"
+    fi
+}
+
+yay_install() {
+    local description="$1"
+    local package="$2"
+
+    if ! pacman -Q "$package" 2>/dev/null | grep -q "^$package"; then
+        print_title "Installing $description..."
+        if yay_install_with_retry "$description" "$package"; then
+            print_success "$description installed successfully"
+        else
+            print_error "Failed to install $description"
+            handle_package_error "$description" "$package"
+        fi
+    else
+        print_success "$description is already installed"
+    fi
+}
+
+#==================================
 # Installation Summary
 #==================================
 print_installation_summary

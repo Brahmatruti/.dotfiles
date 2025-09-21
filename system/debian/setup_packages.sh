@@ -6,6 +6,8 @@
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_debian.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
 
 #==================================
 # Error Handling Functions
@@ -141,8 +143,14 @@ handle_package_error() {
     local package="$2"
 
     print_warning "Package $description ($package) failed to install"
-    print_question "Would you like to continue with other packages? (y/n)"
-    read -r choice
+    print_question "Would you like to continue with other packages? (Y/n)"
+
+    # Auto-continue with 3-second timeout, default "yes"
+    read -t 3 -r choice
+    if [ $? -gt 128 ]; then
+        print_info "No response received within 3 seconds, continuing automatically..."
+        choice="y"
+    fi
 
     if [[ ! "$choice" =~ ^[Yy]$ ]]; then
         print_error "Installation cannot continue. Exiting."
@@ -166,12 +174,12 @@ apt_install "gpg" "gpg"
 sudo mkdir -p /etc/apt/keyrings
 
 # Eza
-wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg &> /dev/null
+install_gpg_key "https://raw.githubusercontent.com/eza-community/eza/main/deb.asc" "Eza" "/etc/apt/keyrings/gierens.gpg"
 echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list &> /dev/null
 sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
 
 # Charm
-curl -fsSL --silent https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg &> /dev/null
+install_gpg_key "https://repo.charm.sh/apt/gpg.key" "Charm" "/etc/apt/keyrings/charm.gpg"
 echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list &> /dev/null
 
 #==================================
@@ -313,7 +321,7 @@ print_title "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native L
 print_title "Install Development Tools"
 
 # Docker + Compose
-execute "curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg" "Docker GPG Key"
+install_gpg_key "https://download.docker.com/linux/debian/gpg" "Docker" "/usr/share/keyrings/docker-archive-keyring.gpg"
 execute 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null' "Docker Repository"
 apt_update
 apt_install "Docker" "docker-ce docker-ce-cli containerd.io docker-compose-plugin"
@@ -321,7 +329,7 @@ execute "sudo usermod -aG docker $USER" "Add User to Docker Group"
 
 # Ansible & Terraform
 apt_install "Ansible" "ansible"
-execute "wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg" "HashiCorp GPG Key"
+install_gpg_key "https://apt.releases.hashicorp.com/gpg" "HashiCorp" "/usr/share/keyrings/hashicorp-archive-keyring.gpg"
 execute 'echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list' "HashiCorp Repository"
 apt_update
 apt_install "Terraform" "terraform"
@@ -429,3 +437,8 @@ extension_install "Removable Drive Menu" "https://extensions.gnome.org/extension
 extension_install "Caffeine" "https://extensions.gnome.org/extension/517/caffeine/"
 extension_install "Impatience" "https://extensions.gnome.org/extension/277/impatience/"
 extension_install "User Avatar" "https://extensions.gnome.org/extension/5506/user-avatar-in-quick-settings/"
+
+#==================================
+# Installation Summary
+#==================================
+print_installation_summary

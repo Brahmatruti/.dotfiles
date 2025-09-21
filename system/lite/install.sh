@@ -26,11 +26,46 @@ print_log() {
 apt_install() {
     local description="$1"
     local package="$1"
-    track_installation_attempt "$description" "$package"
-    if apt install -qq -y "$package" &> /dev/null; then
-        track_installation_result "true" "$description" "$package" "Successfully installed"
-    else
-        track_installation_result "false" "$description" "$package" "Failed to install"
+    local max_retries=2
+    local retry_count=0
+
+    while [ $retry_count -lt $max_retries ]; do
+        track_installation_attempt "$description" "$package"
+        if apt install -qq -y "$package" &> /dev/null; then
+            track_installation_result "true" "$description" "$package" "Successfully installed"
+            return 0
+        else
+            retry_count=$((retry_count + 1))
+            track_installation_result "false" "$description" "$package" "Failed to install (attempt $retry_count)"
+
+            if [ $retry_count -lt $max_retries ]; then
+                print_in_color "   ⚠ Attempt $retry_count failed for $description, retrying in 3 seconds...\n" 3
+                sleep 3
+            fi
+        fi
+    done
+
+    print_in_color "   ✗ Failed to install $description after $max_retries attempts\n" 1
+    handle_package_error_lite "$description" "$package"
+}
+
+handle_package_error_lite() {
+    local description="$1"
+    local package="$2"
+
+    print_in_color "   ⚠ Package $description ($package) failed to install\n" 3
+    print_in_color "   ❓ Would you like to continue with other packages? (Y/n): " 6
+
+    # Auto-continue with 3-second timeout, default "yes"
+    read -t 3 -r choice
+    if [ $? -gt 128 ]; then
+        print_in_color "   ℹ No response received within 3 seconds, continuing automatically...\n" 2
+        choice="y"
+    fi
+
+    if [[ ! "$choice" =~ ^[Yy]$ ]]; then
+        print_in_color "   ✗ Installation cannot continue. Exiting.\n" 1
+        exit 1
     fi
 }
 
