@@ -136,6 +136,50 @@ apt_install "Caffeine" "caffeine"
 apt_install "Notion" "notion"
 apt_install "OBS Studio" "obs-studio"
 
+#==================================
+# Install Development Tools
+#==================================
+print_title "Install Development Tools"
+
+# Docker + Compose
+execute "curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg" "Docker GPG Key"
+execute 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null' "Docker Repository"
+apt_update
+apt_install "Docker" "docker-ce docker-ce-cli containerd.io docker-compose-plugin"
+execute "sudo usermod -aG docker $USER" "Add User to Docker Group"
+
+# Ansible & Terraform
+apt_install "Ansible" "ansible"
+execute "wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg" "HashiCorp GPG Key"
+execute 'echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list' "HashiCorp Repository"
+apt_update
+apt_install "Terraform" "terraform"
+
+# NVM, Node.js, npm, JS tools
+execute "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash" "Install NVM"
+execute 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm install --lts && nvm alias default "lts/*" && nvm use default' "Install Node.js LTS"
+execute 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && npm install -g npm yarn pnpm eslint prettier' "Install NPM Tools"
+
+# OpenJDK
+apt_install "OpenJDK 17" "openjdk-17-jdk"
+
+# Python development tools
+apt_install "Python3 venv" "python3-venv"
+apt_install "Python3 pip" "python3-pip"
+
+# Additional development packages
+apt_install "Build tools" "build-essential"
+apt_install "SSL dev" "libssl-dev"
+apt_install "jq" "jq"
+apt_install "unzip" "unzip"
+apt_install "make" "make"
+apt_install "gcc" "gcc"
+apt_install "g++" "g++"
+
+# NFS and autofs
+apt_install "NFS common" "nfs-common"
+apt_install "Autofs" "autofs"
+
 
 #==================================
 # Install Snap packages

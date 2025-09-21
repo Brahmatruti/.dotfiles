@@ -91,6 +91,46 @@ pacman_install "ffmpeg" "ffmpeg"
 
 pacman_install "Alacritty" "alacritty"
 
+#==================================
+# Install Development Tools (from Ubuntu equivalent)
+#==================================
+print_title "Install Development Tools"
+
+# Docker
+pacman_install "Docker" "docker"
+pacman_install "Docker Compose" "docker-compose"
+execute "sudo usermod -aG docker $USER" "Add User to Docker Group"
+
+# Ansible & Terraform
+pacman_install "Ansible" "ansible"
+yay_install "Terraform" "terraform"
+
+# NVM, Node.js, npm, JS tools
+execute "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash" "Install NVM"
+execute 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm install --lts && nvm alias default "lts/*" && nvm use default' "Install Node.js LTS"
+execute 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && npm install -g npm yarn pnpm eslint prettier' "Install NPM Tools"
+
+# OpenJDK
+pacman_install "OpenJDK 17" "jdk17-openjdk"
+
+# Python development tools
+pacman_install "Python3 venv" "python-virtualenv"
+pacman_install "Python3 pip" "python-pip"
+
+# Additional development packages
+pacman_install "Build tools" "base-devel"
+pacman_install "SSL dev" "openssl"
+pacman_install "jq" "jq"
+pacman_install "unzip" "unzip"
+pacman_install "make" "make"
+pacman_install "cmake" "cmake"
+pacman_install "gcc" "gcc"
+pacman_install "g++" "gcc"
+
+# NFS (Linux specific)
+pacman_install "NFS common" "nfs-utils"
+pacman_install "Autofs" "autofs"
+
 
 #==================================
 # Install Snap packages
