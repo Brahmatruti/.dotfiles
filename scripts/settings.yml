@@ -3,10 +3,10 @@
 # This file is not functional yet. Will be implemented later
 # ===============================================================
 repository:
-  name: excalith/.dotfiles
-  origin: git@github.com:excalith/.dotfiles.git
-  raw: https://raw.githubusercontent.com/excalith/.dotfiles/main/
+  name: Brahmatruti/.dotfiles
+  origin: git@github.com:Brahmatruti/.dotfiles.git
+  raw: https://raw.githubusercontent.com/Brahmatruti/.dotfiles/main/
 
 download:
-  tarball: https://github.com/excalith/.dotfiles/tarball/main
-  zip: https://github.com/excalith/.dotfiles/archive/main.zip
+  tarball: https://github.com/Brahmatruti/.dotfiles/tarball/main
+  zip: https://github.com/Brahmatruti/.dotfiles/archive/main.zip

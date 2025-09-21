@@ -3,7 +3,7 @@
 #==================================
 # Variables
 #==================================
-declare GITHUB_REPOSITORY="excalith/.dotfiles"
+declare GITHUB_REPOSITORY="Brahmatruti/.dotfiles"
 declare DOTFILES_ORIGIN="git@github.com:$GITHUB_REPOSITORY.git"
 declare DOTFILES_TARBALL_URL="https://github.com/$GITHUB_REPOSITORY/tarball/main"
 declare DOTFILES_UTILS_URL="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/main/scripts/utils/utils.sh"
@@ -307,7 +307,7 @@ main() {
         download_utils || exit 1
     fi
 
-    print_section "Excalith Dotfiles Setup"
+    print_section "Brahmatruti Dotfiles Setup"
 
     # Ask user for sudo
     print_title "Sudo Access"

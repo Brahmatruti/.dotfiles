@@ -3,7 +3,7 @@
 
 
 function Main {
-	gum style --foreground 212 --border-foreground 212 --border rounded --align center --width 40 --margin "0 0" --padding "0 0" 'Excalith Dotfiles' 'Maintenance'
+	gum style --foreground 212 --border-foreground 212 --border rounded --align center --width 40 --margin "0 0" --padding "0 0" 'Brahmatruti Dotfiles' 'Maintenance'
 
     Write-LineBreak
 	Write-In-Green "  Select an option"
@@ -132,7 +132,7 @@ function Show-Sync-Menu {
                 switch ($SELECTION) {
                     "$SEL_1" {
                         git init > $null
-                        $GIT_ORIGIN=$(gum input --prompt "Repo URL: " --placeholder "git@github.com:excalith/.dotfiles.git")
+                        $GIT_ORIGIN=$(gum input --prompt "Repo URL: " --placeholder "git@github.com:Brahmatruti/.dotfiles.git")
                         git remote add origin "$GIT_ORIGIN"
                     }
                     "$SEL_" {
@@ -147,7 +147,7 @@ function Show-Sync-Menu {
             }
             else {
                 git init > $null
-                $GIT_ORIGIN=$(gum input --prompt "Repo URL: " --placeholder "git@github.com:excalith/.dotfiles.git")
+                $GIT_ORIGIN=$(gum input --prompt "Repo URL: " --placeholder "git@github.com:Brahmatruti/.dotfiles.git")
                 git remote add origin "$GIT_ORIGIN"
             }
         }
