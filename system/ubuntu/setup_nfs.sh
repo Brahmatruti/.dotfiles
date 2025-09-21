@@ -51,5 +51,5 @@ print_title "Testing autofs configuration"
 sudo systemctl status autofs --no-pager
 
 print_success "NFS and autofs configuration completed"
-print_info "Edit /etc/auto.nfs with your actual NFS server details"
-print_info "Mounts will be available under /media/ when accessed"
+print_title "Edit /etc/auto.nfs with your actual NFS server details"
+print_title "Mounts will be available under /media/ when accessed"

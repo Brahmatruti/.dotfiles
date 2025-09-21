@@ -4,14 +4,12 @@
 Write-Section "Running Windows Dotfiles Setup"
 
 #==================================
-# Development Machine Detection
+# Development Machine Check
 #==================================
-Write-Title "Development Machine Setup"
+Write-Title "Development Machine Check"
 
-$choice = Read-Host "Is this a development machine? (y/N)"
-if ($choice -eq 'y' -or $choice -eq 'Y') {
-    Write-Host "Setting up development environment..." -ForegroundColor "Green"
-    $env:IS_DEVELOPMENT_MACHINE = "true"
+if ($env:IS_DEVELOPMENT_MACHINE -eq "true") {
+    Write-Host "Development machine detected - installing development packages..." -ForegroundColor "Green"
 
     # Install additional development packages
     Write-Title "Installing additional development packages"
@@ -28,8 +26,7 @@ if ($choice -eq 'y' -or $choice -eq 'Y') {
     Write-Success "Development environment setup completed"
 }
 else {
-    $env:IS_DEVELOPMENT_MACHINE = "false"
-    Write-Host "Skipping development packages installation" -ForegroundColor "Yellow"
+    Write-Host "Non-development machine detected - skipping development packages" -ForegroundColor "Yellow"
 }
 
 #==================================
@@ -45,10 +42,15 @@ Invoke-Script ".dotfiles\system\windows\setup_config.ps1"
 # Setup Packages
 Invoke-Script ".dotfiles\system\windows\setup_packages.ps1"
 
-# Setup AI Tools
-$aiChoice = Read-Host "Do you want to install AI tools (Google Gemini CLI, etc.)? (y/N)"
-if ($aiChoice -eq 'y' -or $aiChoice -eq 'Y') {
-    Invoke-Script ".dotfiles\system\windows\setup_ai_tools.ps1"
+# Setup AI Tools (Only on Development Machines)
+if ($env:IS_DEVELOPMENT_MACHINE -eq "true") {
+    $aiChoice = Read-Host "Do you want to install AI tools (Google Gemini CLI, etc.)? (y/N)"
+    if ($aiChoice -eq 'y' -or $aiChoice -eq 'Y') {
+        Invoke-Script ".dotfiles\system\windows\setup_ai_tools.ps1"
+    }
+}
+else {
+    Write-Host "Skipping AI tools (non-development machine)" -ForegroundColor "Yellow"
 }
 
 # Setup Cleanup

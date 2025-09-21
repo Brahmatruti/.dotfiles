@@ -31,26 +31,88 @@
 > [!CAUTION]
 > If you have no idea what a dotfile is all about, please do not simply run these commands. They will override your configurations with my configurations and install bunch of packages.
 
-Depending on your OS, copy and paste the code to start installation. This code will download my dotfiles and start setup depending on your OS.
-connect email =133171373+Brahmatruti[domain]users.noreply.github.com 
-### MacOS Monterey (and above)
+The installation automatically detects your operating system and runs the appropriate setup. Choose your OS family below:
+
+### 🪟 **Windows Family** (Windows 10/11, WSL)
 <details>
- <summary>MacOS Monterey (and above)</summary>
+ <summary>Windows 10/11 Setup</summary>
+
+**Native Windows Setup:**
+```powershell
+# Allow remote scripts to run
+Set-ExecutionPolicy Bypass -Scope Process; Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+
+# Download and start setup
+Invoke-Expression (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/brahmatruti/.dotfiles/main/scripts/setup.ps1').Content
+
+# Reset Execution Policy (Optional)
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Restricted
+```
+
+**WSL Ubuntu Setup:**
+```bash
+# Run in WSL terminal
+bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"
+```
+</details>
+
+### 🐧 **Linux Family** (Ubuntu, Debian, Arch, Alpine, + Experimental)
+<details>
+ <summary>Ubuntu 22.04+ / Debian 11/12</summary>
+<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
+</details>
+
+<details>
+ <summary>Arch Linux / Manjaro / EndeavourOS</summary>
+<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
+</details>
+
+<details>
+ <summary>Alpine Linux</summary>
+<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
+</details>
+
+<details>
+ <summary>Fedora / RHEL / CentOS / Rocky / AlmaLinux (Experimental)</summary>
+<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
+</details>
+
+<details>
+ <summary>openSUSE / SLES (Experimental)</summary>
+<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
+</details>
+
+<details>
+ <summary>Gentoo / Funtoo (Experimental)</summary>
+<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
+</details>
+
+<details>
+ <summary>Void Linux (Experimental)</summary>
+<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
+</details>
+
+### 🍎 **macOS Family**
+<details>
+ <summary>macOS Monterey (12.0+) and above</summary>
 <pre lang="bash">bash -c "$(curl -LsS https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
 </details>
 
-
-### Ubuntu 22.04+ / Debian 11/12
+### 📱 **Android Family**
 <details>
- <summary>Download and Setup</summary>
-<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
-</details>
+ <summary>Termux (Android)</summary>
 
+**Lite Version for Termux:**
+```bash
+bash -c "$(curl -LsS https://raw.github.com/brahmatruti/.dotfiles/main/system/lite/install.sh)"
+```
 
-### Arch Linux
-<details>
- <summary>Download and Setup</summary>
-<pre lang="bash">bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/main/scripts/setup.sh)"</pre>
+**Full Version (if you have git):**
+```bash
+git clone https://github.com/brahmatruti/.dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+bash system/lite/install.sh
+```
 </details>
 
 ### Lite Version
@@ -93,36 +155,88 @@ bash -c "$(wget --no-cache -qO - https://raw.github.com/brahmatruti/.dotfiles/ma
 
 ## Supported Operating Systems
 
-### 🐧 Ubuntu 22.04+ & Debian 11/12
-- **Package Managers**: APT, Snap, Flatpak
-- **Features**: NFS support, Gnome integration, PPAs (Ubuntu), stable repos (Debian)
-- **Documentation**: [Ubuntu Guide](system/ubuntu/README.md) | [Debian Guide](system/debian/README.md)
-- **Development Tools**: Docker, Ansible, Terraform, Python, Java, Node.js
-- **Error Handling**: Retry logic, logging, user recovery options
-
-### 🪟 Windows 10/11
-- **Package Managers**: WinGet, Chocolatey
-- **Features**: WSL support, PowerShell, Registry configuration
+### 🪟 **Windows Family**
+#### Windows 10/11 (Native)
+- **Package Managers**: WinGet, Chocolatey, PowerShell
+- **Features**: WSL support, Registry configuration, PowerShell scripts
 - **Documentation**: [Windows Guide](system/windows/README.md)
 - **Development Tools**: Docker Desktop, Azure CLI, AWS CLI, Python, Node.js
+- **Error Handling**: Comprehensive logging and recovery options
 
-### 🍎 macOS Monterey+
+#### Windows WSL (Ubuntu)
+- **Package Managers**: APT, Snap, Flatpak
+- **Features**: Full Ubuntu integration within Windows
+- **Documentation**: [Ubuntu Guide](system/ubuntu/README.md)
+- **Development Tools**: Docker, Ansible, Terraform, Python, Java, Node.js
+
+### 🐧 **Linux Family**
+
+#### Debian/Ubuntu-based (Fully Supported)
+- **Ubuntu 22.04+**: PPAs, latest packages, Gnome integration
+- **Debian 11/12**: Stable repositories, security-focused
+- **Package Managers**: APT, Snap, Flatpak
+- **Features**: NFS support, Gnome integration, development tools, cloud storage clients
+- **Cloud Storage**: pCloud Drive, MEGASync, Synology Drive Client, rclone (Google Drive)
+- **Documentation**: [Ubuntu Guide](system/ubuntu/README.md) | [Debian Guide](system/debian/README.md)
+
+#### Arch-based (Fully Supported)
+- **Arch Linux**: Rolling release, minimal base, AUR support
+- **Manjaro**: User-friendly Arch derivative
+- **EndeavourOS**: Easy-to-use Arch experience
+- **Package Managers**: Pacman, AUR (yay/paru)
+- **Features**: Latest packages, minimal installation, cloud storage clients
+- **Cloud Storage**: MEGASync, Synology Drive Client, rclone (Google Drive), pCloud Drive
+- **Documentation**: [Arch Guide](system/arch/README.md)
+
+#### Alpine-based (Fully Supported)
+- **Alpine Linux**: Lightweight, security-focused, Docker-ready
+- **Package Managers**: APK
+- **Features**: Minimal resource usage, container optimization
+- **Cloud Storage**: MEGASync, rclone (Google Drive) - limited availability
+- **Documentation**: [Alpine Guide](system/alpine/README.md)
+
+#### RPM-based (Experimental)
+- **Fedora**: Latest packages, Red Hat sponsored
+- **RHEL/CentOS/Rocky/AlmaLinux**: Enterprise-focused, stable
+- **Package Managers**: DNF/YUM, RPM
+- **Features**: Enterprise support, long-term stability
+- **Documentation**: Coming soon
+
+#### SUSE-based (Experimental)
+- **openSUSE**: Community-driven, cutting-edge packages
+- **SLES**: Enterprise SUSE Linux
+- **Package Managers**: Zypper, RPM
+- **Features**: Strong enterprise support
+- **Documentation**: Coming soon
+
+#### Gentoo-based (Experimental)
+- **Gentoo**: Source-based, highly customizable
+- **Funtoo**: Gentoo derivative with optimizations
+- **Package Managers**: Portage, emerge
+- **Features**: Compile-time optimization
+- **Documentation**: Coming soon
+
+#### Independent (Experimental)
+- **Void Linux**: Independent, runit-based
+- **Package Managers**: XBPS
+- **Features**: Simple, fast, lightweight
+- **Documentation**: Coming soon
+
+### 🍎 **macOS Family**
+#### macOS Monterey+ (12.0+)
 - **Package Managers**: Homebrew, Mac App Store
-- **Features**: Launch agents, security considerations
+- **Features**: Launch agents, security considerations, native integration
 - **Documentation**: [macOS Guide](system/macos/README.md)
 - **Development Tools**: Docker, Ansible, Terraform, Python, Java, Node.js
+- **Error Handling**: Comprehensive logging and recovery options
 
-### 🏹 Arch Linux
-- **Package Managers**: Pacman, AUR (yay)
-- **Features**: Rolling release, minimal base
-- **Documentation**: [Arch Guide](system/arch/README.md)
-- **Development Tools**: Docker, Ansible, Terraform, Python, Java, Node.js
-
-### 🏔️ Alpine Linux
-- **Package Managers**: APK
-- **Features**: Lightweight, security-focused
-- **Documentation**: [Alpine Guide](system/alpine/README.md)
-- **Development Tools**: Docker, Ansible, Terraform, Python, Java, Node.js
+### 📱 **Android Family**
+#### Termux (Android)
+- **Package Managers**: APT, pkg
+- **Features**: Mobile development environment, limited resources
+- **Documentation**: [Lite Guide](system/lite/README.md)
+- **Development Tools**: Python, Node.js, Git (limited)
+- **Error Handling**: Mobile-optimized error recovery
 
 ### 🔬 **Experimental OS Support**
 The following operating systems are detected and will attempt installation using similar architecture:
@@ -222,7 +336,7 @@ If you want to create your own dotfiles based on my configuration, you should
 
 ## Credits
 
-This dotfiles repository is a heavily ~~knocked-off~~ inspired version of beautiful [Cătălin’s dotfiles](https://github.com/alrra/dotfiles). You should probably check it out!
+This dotfiles repository is a heavily  inspired version of beautiful [Cătălin’s dotfiles](https://github.com/alrra/dotfiles) and [excalith] (https://github.com/excalith/.dotfiles) You should probably check it out!
 
 I have modified this dotfiles with my own taste of config files and added a bunch of helpers and utilities to install packages, extensions etc. from different sources that I trust. I tried to seperate installation system and OS-spesific configurations as much as I can, so it would be easier to implement new OS setups which I might do later.
 

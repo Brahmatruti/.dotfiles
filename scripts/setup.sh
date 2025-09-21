@@ -3,7 +3,7 @@
 #==================================
 # Variables
 #==================================
-declare GITHUB_REPOSITORY="Brahmatruti/.dotfiles"
+declare GITHUB_REPOSITORY="brahmatruti/.dotfiles"
 declare DOTFILES_ORIGIN="git@github.com:$GITHUB_REPOSITORY.git"
 declare DOTFILES_TARBALL_URL="https://github.com/$GITHUB_REPOSITORY/tarball/main"
 declare DOTFILES_UTILS_URL="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/main/scripts/utils/utils.sh"
@@ -148,13 +148,13 @@ verify_os() {
     # Check if the OS is RPM-based (Fedora, RHEL, CentOS, Rocky, AlmaLinux)
     elif [[ "$os_name" =~ ^(fedora|rhel|centos|rocky|almalinux)$ ]]; then
         print_warning "$os_name is detected but not fully supported yet"
-        print_info "Attempting to use similar architecture..."
+        print_title "Attempting to use similar architecture..."
         return 0
 
     # Check if the OS is SUSE-based (openSUSE, SLES)
     elif [[ "$os_name" =~ ^(opensuse|sles)$ ]]; then
         print_warning "$os_name is detected but not fully supported yet"
-        print_info "Attempting to use similar architecture..."
+        print_title "Attempting to use similar architecture..."
         return 0
 
     # Check if the OS is Arch-based (Manjaro, EndeavourOS)
@@ -165,25 +165,25 @@ verify_os() {
     # Check if the OS is Gentoo-based (Gentoo, Funtoo)
     elif [[ "$os_name" =~ ^(gentoo|funtoo)$ ]]; then
         print_warning "$os_name is detected but not fully supported yet"
-        print_info "Attempting to use similar architecture..."
+        print_title "Attempting to use similar architecture..."
         return 0
 
     # Check if the OS is Void Linux
     elif [ "$os_name" == "void" ]; then
         print_warning "$os_name is detected but not fully supported yet"
-        print_info "Attempting to use similar architecture..."
+        print_title "Attempting to use similar architecture..."
         return 0
 
     # Check if the OS is FreeBSD
     elif [ "$os_name" == "freebsd" ]; then
         print_warning "$os_name is detected but not fully supported yet"
-        print_info "Attempting to use similar architecture..."
+        print_title "Attempting to use similar architecture..."
         return 0
 
     # Exit if not supported OS
     else
         print_error "$os_name is not supported."
-        print_info "Supported OS types:"
+        print_title "Supported OS types:"
         print_option "•" "macOS (12.0+)"
         print_option "•" "Ubuntu (20.04+)"
         print_option "•" "Debian (11.0+)"
@@ -265,7 +265,7 @@ handle_missing_script() {
     local os_name="$1"
 
     print_error "Installation script for $os_name not found"
-    print_info "Available installation scripts:"
+    print_title "Available installation scripts:"
 
     for dir in "$HOME/.dotfiles/system"/*/; do
         if [ -d "$dir" ] && [ -f "$dir/install.sh" ]; then
@@ -277,11 +277,11 @@ handle_missing_script() {
     print_question "Would you like to try a different OS installation? (y/n)"
     read -r choice
     if [[ "$choice" =~ ^[Yy]$ ]]; then
-        print_info "Available options:"
+        print_title "Available options:"
         select os_option in "$HOME/.dotfiles/system"/*/; do
             if [ -d "$os_option" ] && [ -f "$os_option/install.sh" ]; then
                 local selected_os=$(basename "$os_option")
-                print_info "Attempting installation for $selected_os..."
+                print_title "Attempting installation for $selected_os..."
                 install_with_error_handling "$selected_os"
                 break
             fi
@@ -324,7 +324,57 @@ main() {
         || download_dotfiles
 
     # Start installation with error handling
-    install_with_error_handling "$(get_os)"
+    os_name=$(get_os)
+    print_title "Detected OS: $os_name"
+
+    # Route to appropriate installation based on OS family
+    case "$os_name" in
+        "ubuntu"|"debian"|"wsl_ubuntu")
+            print_title "Using Debian/Ubuntu family installation"
+            install_with_error_handling "$os_name"
+            ;;
+        "arch"|"manjaro"|"endeavouros")
+            print_title "Using Arch family installation"
+            install_with_error_handling "$os_name"
+            ;;
+        "alpine")
+            print_title "Using Alpine installation"
+            install_with_error_handling "$os_name"
+            ;;
+        "macos")
+            print_title "Using macOS installation"
+            install_with_error_handling "$os_name"
+            ;;
+        "windows")
+            print_title "Using Windows installation"
+            install_with_error_handling "$os_name"
+            ;;
+        "fedora"|"rhel"|"centos"|"rocky"|"almalinux")
+            print_title "Using RPM-based installation (experimental)"
+            install_with_error_handling "$os_name"
+            ;;
+        "opensuse"|"sles")
+            print_title "Using SUSE-based installation (experimental)"
+            install_with_error_handling "$os_name"
+            ;;
+        "gentoo"|"funtoo")
+            print_title "Using Gentoo-based installation (experimental)"
+            install_with_error_handling "$os_name"
+            ;;
+        "void")
+            print_title "Using Void Linux installation (experimental)"
+            install_with_error_handling "$os_name"
+            ;;
+        "freebsd")
+            print_title "Using FreeBSD installation (experimental)"
+            install_with_error_handling "$os_name"
+            ;;
+        *)
+            print_warning "Unknown OS: $os_name"
+            print_title "Attempting generic installation..."
+            install_with_error_handling "$os_name"
+            ;;
+    esac
 
     # Ask for git credentials
     . "$HOME/.dotfiles/scripts/utils/generate_git_creds.sh"

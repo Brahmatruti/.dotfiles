@@ -19,34 +19,39 @@ Install-WingetPackage "Firefox" "Mozilla.Firefox"
 Install-WingetPackage "1Password" "AgileBits.1Password"
 Install-WingetPackage "GeForceExperience" "Nvidia.GeForceExperience"
 
-# Development
-Write-Title "Development Packages (CLI)"
-Install-WingetPackage "Git" "Git.Git"
-Install-WingetPackage "Git LFS" "GitHub.GitLFS"
-Install-WingetPackage "Clink" "chrisant996.Clink"
-Install-WingetPackage "Alacritty" "Alacritty.Alacritty"
-Install-WingetPackage "Starship" "Starship.Starship"
-Install-WingetPackage "delta" "dandavison.delta"
-Install-WingetPackage "bat" "sharkdp.bat"
-Install-WingetPackage "eza" "eza-community.eza"
-Install-WingetPackage "micro" "zyedidia.micro"
-Install-WingetPackage "gum" "charmbracelet.gum"
-Install-WingetPackage "fzf" "junegunn.fzf"
-Install-WingetPackage "yq" "MikeFarah.yq"
-Install-WingetPackage "ripgrep" "BurntSushi.ripgrep.MSVC"
-Install-WingetPackage "lazygit" "JesseDuffield.lazygit"
-Install-WingetPackage "lazydocker" "JesseDuffield.Lazydocker"
-Install-WingetPackage "Python 3.12" "Python.Python.3.12"
-Install-WingetPackage "NodeJS" "OpenJS.NodeJS"
-Install-WingetPackage "PowerShell" "Microsoft.Powershell"
+# Development (Only on Development Machines)
+if ($env:IS_DEVELOPMENT_MACHINE -eq "true") {
+    Write-Title "Development Packages (CLI)"
+    Install-WingetPackage "Git" "Git.Git"
+    Install-WingetPackage "Git LFS" "GitHub.GitLFS"
+    Install-WingetPackage "Clink" "chrisant996.Clink"
+    Install-WingetPackage "Alacritty" "Alacritty.Alacritty"
+    Install-WingetPackage "Starship" "Starship.Starship"
+    Install-WingetPackage "delta" "dandavison.delta"
+    Install-WingetPackage "bat" "sharkdp.bat"
+    Install-WingetPackage "eza" "eza-community.eza"
+    Install-WingetPackage "micro" "zyedidia.micro"
+    Install-WingetPackage "gum" "charmbracelet.gum"
+    Install-WingetPackage "fzf" "junegunn.fzf"
+    Install-WingetPackage "yq" "MikeFarah.yq"
+    Install-WingetPackage "ripgrep" "BurntSushi.ripgrep.MSVC"
+    Install-WingetPackage "lazygit" "JesseDuffield.lazygit"
+    Install-WingetPackage "lazydocker" "JesseDuffield.Lazydocker"
+    Install-WingetPackage "Python 3.12" "Python.Python.3.12"
+    Install-WingetPackage "NodeJS" "OpenJS.NodeJS"
+    Install-WingetPackage "PowerShell" "Microsoft.Powershell"
 
-Write-Title "Development Packages (GUI)"
-Install-WingetPackage "JetBrains.Rider" "JetBrains.Rider"
-Install-WingetPackage "VisualStudioCode" "Microsoft.VisualStudioCode"
-Install-WingetPackage "Fork" "Fork.Fork"
-Install-WingetPackage "RenderDoc" "BaldurKarlsson.RenderDoc"
-Install-WingetPackage "DockerDesktop" "Docker.DockerDesktop"
-Install-WingetPackage "Insomnia" "Insomnia.Insomnia"
+    Write-Title "Development Packages (GUI)"
+    Install-WingetPackage "JetBrains.Rider" "JetBrains.Rider"
+    Install-WingetPackage "VisualStudioCode" "Microsoft.VisualStudioCode"
+    Install-WingetPackage "Fork" "Fork.Fork"
+    Install-WingetPackage "RenderDoc" "BaldurKarlsson.RenderDoc"
+    Install-WingetPackage "DockerDesktop" "Docker.DockerDesktop"
+    Install-WingetPackage "Insomnia" "Insomnia.Insomnia"
+}
+else {
+    Write-Host "Skipping development packages (non-development machine)" -ForegroundColor "Yellow"
+}
 
 # Art
 Write-Title "Art Packages"
@@ -93,31 +98,56 @@ Install-WingetPackage "Deluge" "DelugeTeam.Deluge"
 Install-WingetPackage "Bitdefender" "Bitdefender.Bitdefender"
 Install-WingetPackage "NeoFetch" "nepnep.neofetch-win"
 
-#==================================
-# Development Tools (from old scripts)
-#==================================
-Write-Title "Development Tools"
-Install-WingetPackage "Docker Desktop" "Docker.DockerDesktop"
-Install-WingetPackage "Python 3.12" "Python.Python.3.12"
-Install-WingetPackage "NodeJS" "OpenJS.NodeJS"
-Install-WingetPackage "Git" "Git.Git"
-Install-WingetPackage "Git LFS" "GitHub.GitLFS"
+# Package Managers (from old scripts)
+Write-Title "Package Managers"
+Install-WingetPackage "Chocolatey" "Chocolatey.Chocolatey"
+# Install-WingetPackage "Miniconda3" "Anaconda.Miniconda3"
 
-# Cloud and Infrastructure Tools
-Write-Title "Cloud and Infrastructure Tools"
-Install-WingetPackage "Azure CLI" "Microsoft.AzureCLI"
-Install-WingetPackage "AWS CLI" "Amazon.AWSCLI"
 
-# Additional Development Tools
-Write-Title "Additional Development Tools"
-Install-WingetPackage "GitHub Desktop" "GitHub.GitHubDesktop"
+# Additional NAS Tools
+Write-Title "Additional NAS Tools"
 Install-WingetPackage "pCloud Drive" "pCloudAG.pCloudDrive"
 Install-WingetPackage "Google Drive" "Google.Drive"
 Install-WingetPackage "MEGASync" "Mega.MEGASync"
 Install-WingetPackage "QNAP Qsync" "QNAP.Qsync"
-Install-WingetPackage "MobaXterm" "Mobatek.MobaXterm"
+Install-WingetPackage "Synology Drive Client" "Synology.DriveClient"
 
-# AI Tools (from old scripts)
-Write-Title "AI Tools"
-Install-WingetPackage "NodeJS LTS" "OpenJS.NodeJS.LTS"
-# Note: Google Gemini CLI will be installed via npm after Node.js
+
+#==================================
+# Development Tools (Only on Development Machines)
+#==================================
+if ($env:IS_DEVELOPMENT_MACHINE -eq "true") {
+    Write-Title "Development Tools"
+    Install-WingetPackage "Docker Desktop" "Docker.DockerDesktop"
+    Install-WingetPackage "Python 3.12" "Python.Python.3.12"
+    Install-WingetPackage "NodeJS" "OpenJS.NodeJS"
+    Install-WingetPackage "Git" "Git.Git"
+    Install-WingetPackage "Git LFS" "GitHub.GitLFS"
+
+    # Cloud and Infrastructure Tools
+    Write-Title "Cloud and Infrastructure Tools"
+    Install-WingetPackage "Azure CLI" "Microsoft.AzureCLI"
+    Install-WingetPackage "AWS CLI" "Amazon.AWSCLI"
+
+     # Additional Remotes Tools
+    Write-Title "Additional Remotes Tools"
+    Install-WingetPackage "MobaXterm" "Mobatek.MobaXterm"
+    Install-WingetPackage "GitHub Desktop" "GitHub.GitHubDesktop"
+
+    # AI Tools (from old scripts)
+    Write-Title "AI Tools"
+    Install-WingetPackage "NodeJS LTS" "OpenJS.NodeJS.LTS"
+    # Note: Google Gemini CLI will be installed via npm after Node.js
+
+    # .NET Development Tools (from old scripts)
+    Write-Title ".NET Development Tools"
+    Install-WingetPackage ".NET SDK" "Microsoft.DotNet.SDK.8"
+    Install-WingetPackage ".NET Runtime" "Microsoft.DotNet.Runtime.8"
+
+    # Notepad++ (from old scripts)
+    Write-Title "Notepad++"
+    Install-WingetPackage "Notepad++" "Notepad++.Notepad++"
+}
+else {
+    Write-Host "Skipping development tools (non-development machine)" -ForegroundColor "Yellow"
+}

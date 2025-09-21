@@ -92,6 +92,26 @@ pacman_install "ffmpeg" "ffmpeg"
 pacman_install "Alacritty" "alacritty"
 
 #==================================
+# Install Cloud Storage Clients
+#==================================
+print_title "Install Cloud Storage Clients"
+
+# MEGASync (AUR package)
+yay_install "MEGASync" "megasync"
+
+# Synology Drive Client (AUR package)
+yay_install "Synology Drive Client" "synology-drive-client"
+
+# Google Drive (using rclone for mounting)
+pacman_install "rclone" "rclone"
+
+# pCloud Drive (AUR package)
+yay_install "pCloud Drive" "pcloud-drive"
+
+# QNAP Qsync (usually accessed via web interface or NFS/SMB mounts)
+print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
+
+#==================================
 # Install Development Tools (from Ubuntu equivalent)
 #==================================
 print_title "Install Development Tools"

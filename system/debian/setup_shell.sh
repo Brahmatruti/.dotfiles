@@ -74,7 +74,7 @@ cp "$HOME/.dotfiles/config/zsh/.zshrc" ~/.zshrc
 
 # Set zsh as default shell (optional)
 if command -v zsh &> /dev/null && [ "$ZSH_VERSION" ]; then
-    print_info "Zsh is already the default shell"
+    print_title "Zsh is already the default shell"
 else
     read -p "Do you want to set Zsh as your default shell? (y/N): " -n 1 -r
     echo

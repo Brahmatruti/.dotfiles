@@ -1,3 +1,4 @@
+
 #!/bin/bash
 # shellcheck disable=SC1091
 
@@ -109,6 +110,10 @@ symlink ~/.dotfiles/config/tmux/tmux.conf ~/.config/tmux/tmux.conf
 # lunar vim config
 print_title "LunarVim configuration"
 symlink ~/.dotfiles/config/lvim/config.lua ~/.config/lvim/config.lua
+
+# VSCode config
+print_title "VSCode configuration"
+symlink ~/.dotfiles/config/vscode/settings.json ~/.config/Code/User/settings.json
 
 if [ "$os_name" == "macos" ]; then
 	# yabai config

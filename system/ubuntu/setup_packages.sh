@@ -137,6 +137,35 @@ apt_install "Notion" "notion"
 apt_install "OBS Studio" "obs-studio"
 
 #==================================
+# Install Cloud Storage Clients
+#==================================
+print_title "Install Cloud Storage Clients"
+
+# pCloud Drive
+wget -qO - https://repo.pcloud.com/pcloud.gpg | sudo apt-key add -
+echo "deb https://repo.pcloud.com/apt/debian/ stable main" | sudo tee /etc/apt/sources.list.d/pcloud.list
+apt_update
+apt_install "pCloud Drive" "pcloud"
+
+# MEGASync
+wget -qO - https://mega.nz/linux/repo/xUbuntu_22.04/Release.key | sudo apt-key add -
+echo "deb https://mega.nz/linux/repo/xUbuntu_22.04/ ./" | sudo tee /etc/apt/sources.list.d/megasync.list
+apt_update
+apt_install "MEGASync" "megasync"
+
+# Synology Drive Client
+wget -qO - https://raw.githubusercontent.com/synology/SynologyDriveClient/master/synology-drive.gpg | sudo apt-key add -
+echo "deb https://packages.synology.com/drive/deb/ stable main" | sudo tee /etc/apt/sources.list.d/synology-drive.list
+apt_update
+apt_install "Synology Drive Client" "synology-drive"
+
+# Google Drive (using rclone for mounting)
+apt_install "rclone" "rclone"
+
+# QNAP Qsync (usually accessed via web interface or NFS/SMB mounts)
+print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
+
+#==================================
 # Install Development Tools
 #==================================
 print_title "Install Development Tools"
