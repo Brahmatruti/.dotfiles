@@ -123,7 +123,7 @@ print_installation_summary() {
     printf "  Skipped: ${CYAN}%d${NC}\n" "${#SKIPPED_PACKAGES[@]}"
     printf "  Failed: ${RED}%d${NC}\n" "${#FAILED_PACKAGES[@]}"
 
-    local success_rate=$(( ${#SUCCESSFUL_PACKAGES[@]} * 100 / total_packages 2>/dev/null || 0 ))
+    local success_rate=$(( total_packages > 0 ? ${#SUCCESSFUL_PACKAGES[@]} * 100 / total_packages : 0 ))
     if [ $success_rate -ge 80 ]; then
         printf "  Success rate: ${GREEN}%d%%${NC} 🎉\n" "$success_rate"
     elif [ $success_rate -ge 60 ]; then

@@ -304,7 +304,7 @@ handle_package_error() {
     # Auto-continue with 3-second timeout, default "yes"
     read -t 3 -r choice
     if [ $? -gt 128 ]; then
-        print_info "No response received within 3 seconds, continuing automatically..."
+        print_title "No response received within 3 seconds, continuing automatically..."
         choice="y"
     fi
 

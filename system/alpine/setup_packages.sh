@@ -6,8 +6,13 @@
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_alpine.sh"
+
+# Source logging utilities and make functions available
 . "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
+
+# Export logging functions to make them available in this script
+export -f log_success log_failure log_skipped log_warning log_info track_installation_attempt track_installation_result print_installation_summary
 
 #==================================
 # Print Section Title
@@ -100,7 +105,7 @@ execute "sudo addgroup $USER docker" "Add User to Docker Group"
 
 # Ansible & Terraform
 apk_install "Ansible" "ansible"
-execute "wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg" "HashiCorp GPG Key"
+install_gpg_key "https://apt.releases.hashicorp.com/gpg" "HashiCorp" "/usr/share/keyrings/hashicorp-archive-keyring.gpg"
 execute 'echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list' "HashiCorp Repository"
 apk_update
 apk_install "Terraform" "terraform"
@@ -169,7 +174,7 @@ handle_package_error() {
     # Auto-continue with 3-second timeout, default "yes"
     read -t 3 -r choice
     if [ $? -gt 128 ]; then
-        print_info "No response received within 3 seconds, continuing automatically..."
+        print_title "No response received within 3 seconds, continuing automatically..."
         choice="y"
     fi
 

@@ -6,8 +6,13 @@
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_ubuntu.sh"
+
+# Source logging utilities and make functions available
 . "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
+
+# Export logging functions to make them available in this script
+export -f log_success log_failure log_skipped log_warning log_info track_installation_attempt track_installation_result print_installation_summary
 
 
 #==================================
@@ -25,13 +30,13 @@ apt_install "gpg" "gpg"
 sudo mkdir -p /etc/apt/keyrings
 
 # Eza
-wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg &> /dev/null
+install_gpg_key "https://raw.githubusercontent.com/eza-community/eza/main/deb.asc" "Eza" "/etc/apt/keyrings/gierens.gpg"
 echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list &> /dev/null
 sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
 
 
 # Charm
-curl -fsSL --silent https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg &> /dev/null
+install_gpg_key "https://repo.charm.sh/apt/gpg.key" "Charm" "/etc/apt/keyrings/charm.gpg"
 echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list &> /dev/null
 
 #==================================
@@ -155,7 +160,7 @@ handle_package_error() {
     # Auto-continue with 3-second timeout, default "yes"
     read -t 3 -r choice
     if [ $? -gt 128 ]; then
-        print_info "No response received within 3 seconds, continuing automatically..."
+        print_title "No response received within 3 seconds, continuing automatically..."
         choice="y"
     fi
 

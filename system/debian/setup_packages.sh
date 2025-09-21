@@ -6,8 +6,13 @@
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_debian.sh"
+
+# Source logging utilities and make functions available
 . "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
+
+# Export logging functions to make them available in this script
+export -f log_success log_failure log_skipped log_warning log_info track_installation_attempt track_installation_result print_installation_summary
 
 #==================================
 # Error Handling Functions
@@ -148,7 +153,7 @@ handle_package_error() {
     # Auto-continue with 3-second timeout, default "yes"
     read -t 3 -r choice
     if [ $? -gt 128 ]; then
-        print_info "No response received within 3 seconds, continuing automatically..."
+        print_title "No response received within 3 seconds, continuing automatically..."
         choice="y"
     fi
 
@@ -292,20 +297,20 @@ apt_install "Notion" "notion"
 print_title "Install Cloud Storage Clients"
 
 # pCloud Drive
-wget -qO - https://repo.pcloud.com/pcloud.gpg | sudo apt-key add -
-echo "deb https://repo.pcloud.com/apt/debian/ stable main" | sudo tee /etc/apt/sources.list.d/pcloud.list
+install_gpg_key "https://repo.pcloud.com/pcloud.gpg" "pCloud" "/etc/apt/keyrings/pcloud.gpg"
+echo "deb [signed-by=/etc/apt/keyrings/pcloud.gpg] https://repo.pcloud.com/apt/debian/ stable main" | sudo tee /etc/apt/sources.list.d/pcloud.list
 apt_update
 apt_install "pCloud Drive" "pcloud"
 
 # MEGASync
-wget -qO - https://mega.nz/linux/repo/xUbuntu_22.04/Release.key | sudo apt-key add -
-echo "deb https://mega.nz/linux/repo/xUbuntu_22.04/ ./" | sudo tee /etc/apt/sources.list.d/megasync.list
+install_gpg_key "https://mega.nz/linux/repo/xUbuntu_22.04/Release.key" "MEGASync" "/etc/apt/keyrings/megasync.gpg"
+echo "deb [signed-by=/etc/apt/keyrings/megasync.gpg] https://mega.nz/linux/repo/xUbuntu_22.04/ ./" | sudo tee /etc/apt/sources.list.d/megasync.list
 apt_update
 apt_install "MEGASync" "megasync"
 
 # Synology Drive Client
-wget -qO - https://raw.githubusercontent.com/synology/SynologyDriveClient/master/synology-drive.gpg | sudo apt-key add -
-echo "deb https://packages.synology.com/drive/deb/ stable main" | sudo tee /etc/apt/sources.list.d/synology-drive.list
+install_gpg_key "https://raw.githubusercontent.com/synology/SynologyDriveClient/master/synology-drive.gpg" "Synology Drive" "/etc/apt/keyrings/synology-drive.gpg"
+echo "deb [signed-by=/etc/apt/keyrings/synology-drive.gpg] https://packages.synology.com/drive/deb/ stable main" | sudo tee /etc/apt/sources.list.d/synology-drive.list
 apt_update
 apt_install "Synology Drive Client" "synology-drive"
 
