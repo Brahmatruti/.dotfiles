@@ -47,6 +47,27 @@ apk_install "neofetch" "neofetch"
 
 apk_install "neovim" "neovim"
 
+#==================================
+# Install Cloud Storage Clients
+#==================================
+print_title "Install Cloud Storage Clients"
+
+# MEGASync (using community repository)
+echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+apk_update
+apk_install "MEGASync" "megasync"
+
+# Google Drive (using rclone for mounting)
+apk_install "rclone" "rclone"
+
+# pCloud Drive (not available in Alpine repos)
+print_info "pCloud Drive: Not available in Alpine repositories"
+
+# Synology Drive Client (not available in Alpine repos)
+print_info "Synology Drive Client: Not available in Alpine repositories"
+
+# QNAP Qsync (usually accessed via web interface or NFS/SMB mounts)
+print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
 
 #==================================
 # Install From Source

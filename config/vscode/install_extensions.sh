@@ -13,7 +13,7 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # Function to print colored output
-print_info() {
+print_title() {
     echo -e "${BLUE}ℹ  $1${NC}"
 }
 
@@ -31,7 +31,7 @@ print_error() {
 
 # Function to install VSCode extensions
 install_vscode_extensions() {
-    print_info "Installing Visual Studio Code extensions..."
+    print_title "Installing Visual Studio Code extensions..."
 
     # Check if VSCode is installed
     if ! command -v code &> /dev/null; then
@@ -74,7 +74,7 @@ install_vscode_extensions() {
     local fail_count=0
 
     for extension in "${extensions[@]}"; do
-        print_info "Installing $extension..."
+        print_title "Installing $extension..."
         if code --install-extension "$extension" --force &>/dev/null; then
             print_success "$extension installed successfully"
             ((success_count++))
@@ -85,7 +85,7 @@ install_vscode_extensions() {
     done
 
     print_success "VSCode extensions installation completed!"
-    print_info "Successfully installed: $success_count extensions"
+    print_title "Successfully installed: $success_count extensions"
     if [[ $fail_count -gt 0 ]]; then
         print_warning "Failed to install: $fail_count extensions"
     fi
@@ -93,7 +93,7 @@ install_vscode_extensions() {
 
 # Function to list installed extensions
 list_installed_extensions() {
-    print_info "Checking installed VSCode extensions..."
+    print_title "Checking installed VSCode extensions..."
 
     if command -v code &> /dev/null; then
         local installed
@@ -102,7 +102,7 @@ list_installed_extensions() {
             print_success "Currently installed extensions:"
             echo "$installed" | sed 's/^/  - /'
         else
-            print_info "No extensions currently installed."
+            print_title "No extensions currently installed."
         fi
     else
         print_error "VSCode is not installed or not in PATH."
@@ -118,7 +118,7 @@ main() {
         read -p "Do you want to install VSCode extensions? (y/N): " -n 1 -r
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            print_info "Extension installation cancelled."
+            print_title "Extension installation cancelled."
             exit 0
         fi
     fi

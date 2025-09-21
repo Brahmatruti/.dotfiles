@@ -39,6 +39,24 @@ function Install-Dotfiles {
 }
 
 function Start-Setup {
+    #==================================
+    # Development Machine Detection
+    #==================================
+    Write-Host "Development Machine Setup" -ForegroundColor "Cyan"
+    Write-Host "=========================" -ForegroundColor "Cyan"
+
+    $choice = Read-Host "Is this a development machine? (y/N)"
+    if ($choice -eq 'y' -or $choice -eq 'Y') {
+        Write-Host "Setting up development environment..." -ForegroundColor "Green"
+        $env:IS_DEVELOPMENT_MACHINE = "true"
+    }
+    else {
+        Write-Host "Skipping development packages installation" -ForegroundColor "Yellow"
+        $env:IS_DEVELOPMENT_MACHINE = "false"
+    }
+
+    Write-Host ""
+
     # Define the path to the additional script
     $setupScript = Join-Path $env:USERPROFILE '.dotfiles\system\windows\install.ps1'
 
@@ -52,10 +70,10 @@ function Start-Setup {
         # Run the additional script
         . $setupScript
 
-        Write-Host "Setup Completed."
+        Write-Host "Setup Completed." -ForegroundColor "Green"
     }
     catch {
-        Write-Host "Error: $_"
+        Write-Host "Error: $_" -ForegroundColor "Red"
     }
 }
 

@@ -44,4 +44,4 @@ fc-cache -f -v
 rm -f /tmp/Hack.zip /tmp/FiraCode.zip /tmp/JetBrainsMono.zip
 
 print_success "Fonts installed successfully"
-print_info "Font cache has been updated"
+print_title "Font cache has been updated"

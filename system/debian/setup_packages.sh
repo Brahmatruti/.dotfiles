@@ -24,7 +24,7 @@ apt_install_with_retry() {
             print_warning "Attempt $retry_count failed for $description"
 
             if [ $retry_count -lt $max_retries ]; then
-                print_info "Retrying in 5 seconds..."
+                print_title "Retrying in 5 seconds..."
                 sleep 5
             fi
         fi
@@ -48,7 +48,7 @@ snap_install_with_retry() {
             print_warning "Attempt $retry_count failed for $description"
 
             if [ $retry_count -lt $max_retries ]; then
-                print_info "Retrying in 5 seconds..."
+                print_title "Retrying in 5 seconds..."
                 sleep 5
             fi
         fi
@@ -72,7 +72,7 @@ flatpak_install_with_retry() {
             print_warning "Attempt $retry_count failed for $description"
 
             if [ $retry_count -lt $max_retries ]; then
-                print_info "Retrying in 5 seconds..."
+                print_title "Retrying in 5 seconds..."
                 sleep 5
             fi
         fi
@@ -90,7 +90,7 @@ apt_install() {
     local package="$2"
 
     if ! dpkg -l "$package" 2>/dev/null | grep -q "^ii"; then
-        print_info "Installing $description..."
+        print_title "Installing $description..."
         if apt_install_with_retry "$description" "$package"; then
             print_success "$description installed successfully"
         else
@@ -107,7 +107,7 @@ snap_install() {
     local package="$2"
 
     if ! snap list "$package" 2>/dev/null | grep -q "$package"; then
-        print_info "Installing $description..."
+        print_title "Installing $description..."
         if snap_install_with_retry "$description" "$package"; then
             print_success "$description installed successfully"
         else
@@ -124,7 +124,7 @@ flatpak_install() {
     local package="$2"
 
     if ! flatpak list --app | grep -q "$package"; then
-        print_info "Installing $description..."
+        print_title "Installing $description..."
         if flatpak_install_with_retry "$description" "$package"; then
             print_success "$description installed successfully"
         else
@@ -229,7 +229,7 @@ apt_install "git-lfs" "git-lfs"
 apt_install "apt-transport-https" "apt-transport-https"
 apt_install "software-properties-common" "software-properties-common"
 apt_install "libgconf-2-4" "libgconf-2-4"
-apt_install "cargo" "cargo"
+# apt_install "cargo" "cargo"
 
 apt_install "tmux" "tmux"
 apt_install "less" "less"
@@ -265,6 +265,35 @@ apt_install "nudoku" "nudoku"
 apt_install "Alacritty" "alacritty"
 apt_install "Caffeine" "caffeine"
 apt_install "Notion" "notion"
+
+#==================================
+# Install Cloud Storage Clients
+#==================================
+print_title "Install Cloud Storage Clients"
+
+# pCloud Drive
+wget -qO - https://repo.pcloud.com/pcloud.gpg | sudo apt-key add -
+echo "deb https://repo.pcloud.com/apt/debian/ stable main" | sudo tee /etc/apt/sources.list.d/pcloud.list
+apt_update
+apt_install "pCloud Drive" "pcloud"
+
+# MEGASync
+wget -qO - https://mega.nz/linux/repo/xUbuntu_22.04/Release.key | sudo apt-key add -
+echo "deb https://mega.nz/linux/repo/xUbuntu_22.04/ ./" | sudo tee /etc/apt/sources.list.d/megasync.list
+apt_update
+apt_install "MEGASync" "megasync"
+
+# Synology Drive Client
+wget -qO - https://raw.githubusercontent.com/synology/SynologyDriveClient/master/synology-drive.gpg | sudo apt-key add -
+echo "deb https://packages.synology.com/drive/deb/ stable main" | sudo tee /etc/apt/sources.list.d/synology-drive.list
+apt_update
+apt_install "Synology Drive Client" "synology-drive"
+
+# Google Drive (using rclone for mounting)
+apt_install "rclone" "rclone"
+
+# QNAP Qsync (usually accessed via web interface or NFS/SMB mounts)
+print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
 
 #==================================
 # Install Development Tools

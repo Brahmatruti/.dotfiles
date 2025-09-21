@@ -22,7 +22,7 @@ print_title "Development Machine Setup"
 read -p "Is this a development machine? (y/N): " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    print_info "Setting up development environment..."
+    print_title "Setting up development environment..."
     export IS_DEVELOPMENT_MACHINE=true
 
     # Install additional development packages
@@ -52,7 +52,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     print_success "Development environment setup completed"
 else
     export IS_DEVELOPMENT_MACHINE=false
-    print_info "Skipping development packages installation"
+    print_title "Skipping development packages installation"
 fi
 
 
