@@ -376,8 +376,12 @@ main() {
             ;;
     esac
 
-    # Ask for git credentials
-    . "$HOME/.dotfiles/scripts/utils/generate_git_creds.sh"
+    # Ask for git credentials (only if not already configured by enhanced setup)
+    if [ ! -f "$HOME/.config/git/.gitconfig.local" ]; then
+        . "$HOME/.dotfiles/scripts/utils/generate_git_creds.sh"
+    else
+        print_success "Git credentials already configured"
+    fi
 
     # Ask for SSH (Disabled since I started using another method)
     #. "$HOME/.dotfiles/scripts/utils/generate_ssh.sh"
@@ -385,9 +389,12 @@ main() {
     # Ask for GPG (Disabled since I started using another method)
     #. "$HOME/.dotfiles/scripts/utils/generate_gpg.sh"
 
-    # Link to original repository and update contents of dotfiles
-    if [ "$(git config --get remote.origin.url)" != "$DOTFILES_ORIGIN" ]; then
-        . "$HOME/.dotfiles/scripts/utils/init_dotfile_repo.sh '$DOTFILES_ORIGIN'"
+    # Link to original repository and update contents of dotfiles
+    if [ -d "$HOME/.dotfiles" ]; then
+        cd "$HOME/.dotfiles" || exit 1
+        if [ "$(git config --get remote.origin.url 2>/dev/null)" != "$DOTFILES_ORIGIN" ]; then
+            . "$HOME/.dotfiles/scripts/utils/init_dotfile_repo.sh" "$DOTFILES_ORIGIN"
+        fi
     fi
 
     # Ask for restart
