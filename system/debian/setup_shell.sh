@@ -88,6 +88,23 @@ print_success "Zsh configured"
 
 
 #==================================
+# Install Starship Prompt
+#==================================
+print_title "Installing Starship Prompt"
+
+# Install starship
+curl -sS https://starship.rs/install.sh | sh -s -- -y
+
+# Add starship to shells
+echo 'eval "$(starship init bash)"' >> ~/.bashrc
+echo 'eval "$(starship init zsh)"' >> ~/.zshrc
+mkdir -p ~/.config/fish
+echo 'starship init fish | source' >> ~/.config/fish/config.fish
+
+print_success "Starship prompt installed"
+
+
+#==================================
 # Configure Bash
 #==================================
 print_title "Configuring Bash"
@@ -103,22 +120,6 @@ fi
 
 print_success "Bash configured"
 
-
-#==================================
-# Install Starship Prompt
-#==================================
-print_title "Installing Starship Prompt"
-
-# Install starship
-curl -sS https://starship.rs/install.sh | sh -s -- -y
-
-# Add starship to shells
-echo 'eval "$(starship init bash)"' >> ~/.bashrc
-echo 'eval "$(starship init zsh)"' >> ~/.zshrc
-mkdir -p ~/.config/fish
-echo 'starship init fish | source' >> ~/.config/fish/config.fish
-
-print_success "Starship prompt installed"
 
 
 #==================================
