@@ -6,6 +6,8 @@
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_alpine.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
 
 #==================================
 # Print Section Title
@@ -61,13 +63,13 @@ apk_install "MEGASync" "megasync"
 apk_install "rclone" "rclone"
 
 # pCloud Drive (not available in Alpine repos)
-print_info "pCloud Drive: Not available in Alpine repositories"
+print_title "pCloud Drive: Not available in Alpine repositories"
 
 # Synology Drive Client (not available in Alpine repos)
-print_info "Synology Drive Client: Not available in Alpine repositories"
+print_title "Synology Drive Client: Not available in Alpine repositories"
 
 # QNAP Qsync (usually accessed via web interface or NFS/SMB mounts)
-print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
+print_title "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
 
 #==================================
 # Install From Source
@@ -128,3 +130,9 @@ apk_install "g++" "g++"
 # NFS (Linux specific)
 apk_install "NFS common" "nfs-utils"
 apk_install "Autofs" "autofs"
+
+
+#==================================
+# Installation Summary
+#==================================
+print_installation_summary

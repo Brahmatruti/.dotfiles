@@ -18,6 +18,56 @@
 - **Error Handling**: Comprehensive logging, retry logic, and user recovery options
 - **Multi-Architecture**: Support for Debian-based, RPM-based, Arch-based, and more
 
+## Enhanced Installation System
+
+### **Smart Error Recovery**
+- **Automatic Retries**: Failed installations retry up to 2 times with 3-second intervals
+- **Auto-Continue**: 3-second timeout prevents installation hangs - continues automatically
+- **Detailed Logging**: Color-coded output with symbols (✓ ✗ ⊝ ⚠ ℹ ⟲) for clear progress tracking
+- **Installation Summary**: Complete report showing success/failure statistics at completion
+
+### **Cross-Platform Consistency**
+All operating systems now feature identical error handling and logging:
+- **Debian/Ubuntu**: Enhanced APT package management with GPG key safety checks
+- **macOS**: Homebrew package management with comprehensive error recovery
+- **Windows**: WinGet/Chocolatey package management with PowerShell integration
+- **Arch Linux**: Pacman/AUR package management with yay support
+- **Alpine Linux**: APK package management with lightweight optimizations
+- **WSL**: Ubuntu integration within Windows with full feature parity
+- **Lite**: Minimal installation for mobile/embedded systems
+
+### **Installation Summary Example**
+```
+╔════════════════════════════════════════════════════════════════╗
+║                    INSTALLATION SUMMARY                     ║
+╚════════════════════════════════════════════════════════════════╝
+
+✓ SUCCESSFUL PACKAGES (15):
+  • Build Essential (build-essential)
+  • Docker (docker-ce docker-ce-cli containerd.io docker-compose-plugin)
+
+⊝ SKIPPED PACKAGES (3):
+  • Alacritty (alacritty) - Not available in Debian
+  • tre-command (tre-command) - Not available in Debian
+
+✗ FAILED PACKAGES (2):
+  • MEGASync (megasync) - Failed to install after 2 attempts
+  • Synology Drive Client (synology-drive) - Failed to install after 2 attempts
+
+📊 STATISTICS:
+  Total packages processed: 20
+  Successfully installed: 15
+  Skipped: 3
+  Failed: 2
+  Success rate: 75% ⚠️
+
+💡 RECOMMENDATIONS:
+  • Review the failed packages list above
+  • Check your internet connection
+  • Verify package names for your OS/distribution
+  • Try installing failed packages manually
+```
+
 ## Architecture
 
 - **[Configuration Hub](config/)**: Centralized application configurations
@@ -292,12 +342,59 @@ All application configurations are stored in the `config/` directory:
 - **Auto-Installation**: Extensions installed automatically
 - **Theme**: Material Design with custom terminal colors
 
+## Development & Testing
+
+### **Development Environment**
+The repository includes a complete development environment for testing and contributing:
+
+#### **DevContainer Setup**
+```bash
+# Open in VSCode with DevContainer extension
+code Uni_dotfiles/
+# Select "Dev Containers: Reopen in Container"
+```
+
+**Features:**
+- **Multi-OS Testing**: Test installation scripts across different OS configurations
+- **Syntax Validation**: Shell and PowerShell script validation
+- **Error Simulation**: Test error handling and recovery mechanisms
+- **Log Analysis**: Comprehensive test result logging
+
+#### **Test Suite**
+```bash
+# Run the complete test suite
+./.devcontainer/test-installation.sh
+```
+
+**Test Coverage:**
+- ✅ Script syntax validation (bash, PowerShell)
+- ✅ OS-specific feature implementation
+- ✅ Logging function testing
+- ✅ Installation summary validation
+- ✅ Retry logic verification
+- ✅ Auto-continue functionality testing
+
+### **Contributing**
+1. **Fork the repository**
+2. **Open in DevContainer** for consistent development environment
+3. **Run tests** to ensure no regressions
+4. **Follow OS-specific patterns** for new features
+5. **Update documentation** for any changes
+
+### **Architecture Testing**
+- **Cross-Platform Validation**: Test installation flows across all supported OS
+- **Error Scenario Testing**: Validate error handling and recovery
+- **Performance Testing**: Measure installation times and resource usage
+- **Compatibility Testing**: Ensure backward compatibility
+
 ## Documentation
 
 - **[Memory Bank](memory-bank.md)**: Comprehensive implementation guide
 - **[OS-Specific Guides](system/*/README.md)**: Detailed setup instructions
 - **[VSCode Guide](config/vscode/README.md)**: Editor configuration
 - **[Architecture](memory-bank.md#architecture-principles)**: System design principles
+- **[Development Guide](.devcontainer/README.md)**: Development environment setup
+- **[Testing Guide](.devcontainer/test-guide.md)**: Testing procedures and guidelines
 
 ## Post-Installation
 

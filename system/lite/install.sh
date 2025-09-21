@@ -1,5 +1,12 @@
 #==================================
-# Mini Utils
+# Source utilities
+#==================================
+. "$HOME/.dotfiles/scripts/utils/utils.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
+
+#==================================
+# Mini Utils (for lite version)
 #==================================
 print_in_color() {
     printf "%b" \
@@ -17,8 +24,14 @@ print_log() {
 }
 
 apt_install() {
-    print_log "$1"
-    apt install -qq -y $1 &> /dev/null
+    local description="$1"
+    local package="$1"
+    track_installation_attempt "$description" "$package"
+    if apt install -qq -y "$package" &> /dev/null; then
+        track_installation_result "true" "$description" "$package" "Successfully installed"
+    else
+        track_installation_result "false" "$description" "$package" "Failed to install"
+    fi
 }
 
 print_section() {
@@ -147,6 +160,11 @@ termux-reload-settings
 #==================================
 print_section "Setup Complete"
 printf "\n\n"
+
+#==================================
+# Installation Summary
+#==================================
+print_installation_summary
 
 #==================================
 # Start Fish Shell

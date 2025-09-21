@@ -1,5 +1,7 @@
 # Source Windows Utilities
 . "$env:USERPROFILE\.dotfiles\scripts\utils\utils_windows.ps1"
+. "$env:USERPROFILE\.dotfiles\scripts\utils\utils_logging.ps1"
+. "$env:USERPROFILE\.dotfiles\scripts\utils\utils_installation.ps1"
 
 Write-Section "Installing WinGet Packages"
 
@@ -151,3 +153,9 @@ if ($env:IS_DEVELOPMENT_MACHINE -eq "true") {
 else {
     Write-Host "Skipping development tools (non-development machine)" -ForegroundColor "Yellow"
 }
+
+
+#==================================
+# Installation Summary
+#==================================
+Write-InstallationSummary

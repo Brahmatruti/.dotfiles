@@ -6,6 +6,8 @@
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_ubuntu.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
 
 
 #==================================
@@ -163,7 +165,7 @@ apt_install "Synology Drive Client" "synology-drive"
 apt_install "rclone" "rclone"
 
 # QNAP Qsync (usually accessed via web interface or NFS/SMB mounts)
-print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
+print_title "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
 
 #==================================
 # Install Development Tools
@@ -171,15 +173,15 @@ print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Li
 print_title "Install Development Tools"
 
 # Docker + Compose
-execute "curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg" "Docker GPG Key"
-execute 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null' "Docker Repository"
+install_gpg_key "https://download.docker.com/linux/ubuntu/gpg" "Docker" "/usr/share/keyrings/docker-archive-keyring.gpg"
+execute 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null' "Docker Repository"
 apt_update
 apt_install "Docker" "docker-ce docker-ce-cli containerd.io docker-compose-plugin"
 execute "sudo usermod -aG docker $USER" "Add User to Docker Group"
 
 # Ansible & Terraform
 apt_install "Ansible" "ansible"
-execute "wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg" "HashiCorp GPG Key"
+install_gpg_key "https://apt.releases.hashicorp.com/gpg" "HashiCorp" "/usr/share/keyrings/hashicorp-archive-keyring.gpg"
 execute 'echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list' "HashiCorp Repository"
 apt_update
 apt_install "Terraform" "terraform"
@@ -307,3 +309,9 @@ extension_install "Removable Drive Menu" "https://extensions.gnome.org/extension
 extension_install "Caffeine" "https://extensions.gnome.org/extension/517/caffeine/"
 extension_install "Impatience" "https://extensions.gnome.org/extension/277/impatience/"
 extension_install "User Avatar" "https://extensions.gnome.org/extension/5506/user-avatar-in-quick-settings/"
+
+
+#==================================
+# Installation Summary
+#==================================
+print_installation_summary

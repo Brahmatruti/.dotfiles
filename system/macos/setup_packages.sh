@@ -6,6 +6,8 @@
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_macos.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
 
 
 #==================================
@@ -263,3 +265,9 @@ LV_BRANCH='release-1.2/neovim-0.8' bash <(curl -s https://raw.githubusercontent.
 
 # Tmux Plugin Manager (TPM)
 execute "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm" "TMUX Plugin Manager (TPM)"
+
+
+#==================================
+# Installation Summary
+#==================================
+print_installation_summary

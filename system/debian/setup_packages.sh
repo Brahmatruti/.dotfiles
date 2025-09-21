@@ -6,149 +6,8 @@
 #==================================
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_debian.sh"
-
-#==================================
-# Error Handling Functions
-#==================================
-apt_install_with_retry() {
-    local description="$1"
-    local package="$2"
-    local max_retries=3
-    local retry_count=0
-
-    while [ $retry_count -lt $max_retries ]; do
-        if execute "sudo apt-get install -y $package" "$description"; then
-            return 0
-        else
-            retry_count=$((retry_count + 1))
-            print_warning "Attempt $retry_count failed for $description"
-
-            if [ $retry_count -lt $max_retries ]; then
-                print_title "Retrying in 5 seconds..."
-                sleep 5
-            fi
-        fi
-    done
-
-    print_error "Failed to install $description after $max_retries attempts"
-    return 1
-}
-
-snap_install_with_retry() {
-    local description="$1"
-    local package="$2"
-    local max_retries=3
-    local retry_count=0
-
-    while [ $retry_count -lt $max_retries ]; do
-        if execute "sudo snap install $package" "$description"; then
-            return 0
-        else
-            retry_count=$((retry_count + 1))
-            print_warning "Attempt $retry_count failed for $description"
-
-            if [ $retry_count -lt $max_retries ]; then
-                print_title "Retrying in 5 seconds..."
-                sleep 5
-            fi
-        fi
-    done
-
-    print_error "Failed to install $description after $max_retries attempts"
-    return 1
-}
-
-flatpak_install_with_retry() {
-    local description="$1"
-    local package="$2"
-    local max_retries=3
-    local retry_count=0
-
-    while [ $retry_count -lt $max_retries ]; do
-        if execute "flatpak install -y flathub $package" "$description"; then
-            return 0
-        else
-            retry_count=$((retry_count + 1))
-            print_warning "Attempt $retry_count failed for $description"
-
-            if [ $retry_count -lt $max_retries ]; then
-                print_title "Retrying in 5 seconds..."
-                sleep 5
-            fi
-        fi
-    done
-
-    print_error "Failed to install $description after $max_retries attempts"
-    return 1
-}
-
-#==================================
-# Enhanced Package Installation
-#==================================
-apt_install() {
-    local description="$1"
-    local package="$2"
-
-    if ! dpkg -l "$package" 2>/dev/null | grep -q "^ii"; then
-        print_title "Installing $description..."
-        if apt_install_with_retry "$description" "$package"; then
-            print_success "$description installed successfully"
-        else
-            print_error "Failed to install $description"
-            handle_package_error "$description" "$package"
-        fi
-    else
-        print_success "$description is already installed"
-    fi
-}
-
-snap_install() {
-    local description="$1"
-    local package="$2"
-
-    if ! snap list "$package" 2>/dev/null | grep -q "$package"; then
-        print_title "Installing $description..."
-        if snap_install_with_retry "$description" "$package"; then
-            print_success "$description installed successfully"
-        else
-            print_error "Failed to install $description"
-            handle_package_error "$description" "$package"
-        fi
-    else
-        print_success "$description is already installed"
-    fi
-}
-
-flatpak_install() {
-    local description="$1"
-    local package="$2"
-
-    if ! flatpak list --app | grep -q "$package"; then
-        print_title "Installing $description..."
-        if flatpak_install_with_retry "$description" "$package"; then
-            print_success "$description installed successfully"
-        else
-            print_error "Failed to install $description"
-            handle_package_error "$description" "$package"
-        fi
-    else
-        print_success "$description is already installed"
-    fi
-}
-
-handle_package_error() {
-    local description="$1"
-    local package="$2"
-
-    print_warning "Package $description ($package) failed to install"
-    print_question "Would you like to continue with other packages? (y/n)"
-    read -r choice
-
-    if [[ ! "$choice" =~ ^[Yy]$ ]]; then
-        print_error "Installation cannot continue. Exiting."
-        exit 1
-    fi
-}
+. "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
+. "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
 
 
 #==================================
@@ -186,10 +45,10 @@ apt_add_repo "Non-free" "non-free"
 apt_add_repo "Non-free-firmware" "non-free-firmware"
 
 # Fish shell - use Debian package instead of PPA
-print_info "Fish shell: Using Debian package (no PPA needed)"
+print_title "Fish shell: Using Debian package (no PPA needed)"
 
 # Alacritty - use Debian package instead of PPA
-print_info "Alacritty: Using Debian package (no PPA needed)"
+print_title "Alacritty: Using Debian package (no PPA needed)"
 
 
 #==================================
@@ -245,7 +104,8 @@ apt_install "less" "less"
 apt_install "eza" "eza"
 apt_install "bat" "bat"
 apt_install "tree" "tree"
-apt_install "tre-command" "tre-command"
+# Note: tre-command not available in Debian, using tree instead
+apt_install "tree" "tree"
 apt_install "fasd" "fasd"
 apt_install "fd-find" "fd-find"
 apt_install "fzf" "fzf"
@@ -271,7 +131,9 @@ apt_install "ffmpeg" "ffmpeg"
 
 apt_install "nudoku" "nudoku"
 
-apt_install "Alacritty" "alacritty"
+# Note: Alacritty not available in Debian, using gnome-terminal instead
+print_title "Terminal: Using gnome-terminal (Alacritty not available in Debian)"
+apt_install "gnome-terminal" "gnome-terminal"
 apt_install "Caffeine" "caffeine"
 apt_install "Notion" "notion"
 
@@ -302,7 +164,7 @@ apt_install "Synology Drive Client" "synology-drive"
 apt_install "rclone" "rclone"
 
 # QNAP Qsync (usually accessed via web interface or NFS/SMB mounts)
-print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
+print_title "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
 
 #==================================
 # Install Development Tools
@@ -310,7 +172,11 @@ print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Li
 print_title "Install Development Tools"
 
 # Docker + Compose
-execute "curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg" "Docker GPG Key"
+if [ ! -f "/usr/share/keyrings/docker-archive-keyring.gpg" ]; then
+    execute "curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg" "Docker GPG Key"
+else
+    print_success "Docker GPG Key already exists"
+fi
 execute 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null' "Docker Repository"
 apt_update
 apt_install "Docker" "docker-ce docker-ce-cli containerd.io docker-compose-plugin"
@@ -318,7 +184,11 @@ execute "sudo usermod -aG docker $USER" "Add User to Docker Group"
 
 # Ansible & Terraform
 apt_install "Ansible" "ansible"
-execute "wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg" "HashiCorp GPG Key"
+if [ ! -f "/usr/share/keyrings/hashicorp-archive-keyring.gpg" ]; then
+    execute "wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg" "HashiCorp GPG Key"
+else
+    print_success "HashiCorp GPG Key already exists"
+fi
 execute 'echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list' "HashiCorp Repository"
 apt_update
 apt_install "Terraform" "terraform"
@@ -426,3 +296,9 @@ extension_install "Removable Drive Menu" "https://extensions.gnome.org/extension
 extension_install "Caffeine" "https://extensions.gnome.org/extension/517/caffeine/"
 extension_install "Impatience" "https://extensions.gnome.org/extension/277/impatience/"
 extension_install "User Avatar" "https://extensions.gnome.org/extension/5506/user-avatar-in-quick-settings/"
+
+
+#==================================
+# Installation Summary
+#==================================
+print_installation_summary
