@@ -109,7 +109,7 @@ pacman_install "rclone" "rclone"
 yay_install "pCloud Drive" "pcloud-drive"
 
 # QNAP Qsync (usually accessed via web interface or NFS/SMB mounts)
-print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
+print_title "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
 
 #==================================
 # Install Development Tools (from Ubuntu equivalent)

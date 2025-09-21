@@ -163,7 +163,7 @@ apt_install "Synology Drive Client" "synology-drive"
 apt_install "rclone" "rclone"
 
 # QNAP Qsync (usually accessed via web interface or NFS/SMB mounts)
-print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
+print_title "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
 
 #==================================
 # Install Development Tools

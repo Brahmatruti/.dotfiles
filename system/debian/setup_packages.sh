@@ -186,10 +186,10 @@ apt_add_repo "Non-free" "non-free"
 apt_add_repo "Non-free-firmware" "non-free-firmware"
 
 # Fish shell - use Debian package instead of PPA
-print_info "Fish shell: Using Debian package (no PPA needed)"
+print_title "Fish shell: Using Debian package (no PPA needed)"
 
 # Alacritty - use Debian package instead of PPA
-print_info "Alacritty: Using Debian package (no PPA needed)"
+print_title "Alacritty: Using Debian package (no PPA needed)"
 
 
 #==================================
@@ -302,7 +302,7 @@ apt_install "Synology Drive Client" "synology-drive"
 apt_install "rclone" "rclone"
 
 # QNAP Qsync (usually accessed via web interface or NFS/SMB mounts)
-print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
+print_title "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
 
 #==================================
 # Install Development Tools

@@ -61,13 +61,13 @@ apk_install "MEGASync" "megasync"
 apk_install "rclone" "rclone"
 
 # pCloud Drive (not available in Alpine repos)
-print_info "pCloud Drive: Not available in Alpine repositories"
+print_title "pCloud Drive: Not available in Alpine repositories"
 
 # Synology Drive Client (not available in Alpine repos)
-print_info "Synology Drive Client: Not available in Alpine repositories"
+print_title "Synology Drive Client: Not available in Alpine repositories"
 
 # QNAP Qsync (usually accessed via web interface or NFS/SMB mounts)
-print_info "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
+print_title "QNAP Qsync: Access via web interface or NFS/SMB mounts (no native Linux client)"
 
 #==================================
 # Install From Source
