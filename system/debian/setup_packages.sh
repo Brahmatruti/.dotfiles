@@ -7,6 +7,9 @@
 . "$HOME/.dotfiles/scripts/utils/utils.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_debian.sh"
 
+# Source centralized version configuration
+. "$HOME/.dotfiles/config/versions.sh"
+
 # Source logging utilities and make functions available
 . "$HOME/.dotfiles/scripts/utils/utils_logging.sh"
 . "$HOME/.dotfiles/scripts/utils/utils_installation.sh"
@@ -340,7 +343,7 @@ apt_update
 apt_install "Terraform" "terraform"
 
 # NVM, Node.js, npm, JS tools
-execute "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash" "Install NVM"
+execute "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash" "Install NVM"
 execute 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm install --lts && nvm alias default "lts/*" && nvm use default' "Install Node.js LTS"
 execute 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && npm install -g npm yarn pnpm eslint prettier' "Install NPM Tools"
 
@@ -370,10 +373,37 @@ apt_install "Autofs" "autofs"
 #==================================
 print_title "Install Snap Packages"
 
-snap_install "spt" "spt"
-snap_install "GitKraken" "gitkraken"
-snap_install "VS Code" "code"
-snap_install "1Password" "1password"
+# Check if snap is available on Debian
+if command -v snap >/dev/null 2>&1; then
+    print_title "Snap is available, installing packages..."
+    snap_install "spt" "spt"
+    snap_install "GitKraken" "gitkraken"
+    snap_install "VS Code" "code"
+    snap_install "1Password" "1password"
+else
+    print_warning "Snap is not available on Debian. Installing alternatives..."
+
+    # Install VS Code via apt (if available) or flatpak
+    if apt list --installed 2>/dev/null | grep -q "^code/"; then
+        print_title "VS Code is already installed via apt"
+    else
+        print_title "Installing VS Code via flatpak..."
+        flatpak_install "VS Code" "com.visualstudio.code"
+    fi
+
+    # Install 1Password via flatpak
+    flatpak_install "1Password" "com.onepassword.OnePassword"
+
+    # GitKraken via flatpak
+    flatpak_install "GitKraken" "com.axosoft.GitKraken"
+
+    # Install spt via apt if available
+    if apt list --installed 2>/dev/null | grep -q "^spt/"; then
+        print_title "spt is already installed"
+    else
+        print_title "spt not available via apt, skipping..."
+    fi
+fi
 
 #==================================
 # Install Flatpak Packages
@@ -393,7 +423,9 @@ flatpak_install "Dropbox" "com.dropbox.Client"
 flatpak_install "Transmission" "com.transmissionbt.Transmission"
 flatpak_install "Spotify" "com.spotify.Client"
 flatpak_install "VLC" "org.videolan.VLC"
-flatpak_install "Steam" "com.valvesoftware.Steam"
+# Steam requires flatpak >= 1.12.0, commenting out for now
+# flatpak_install "Steam" "com.valvesoftware.Steam"
+print_title "Steam installation skipped - requires flatpak >= 1.12.0"
 
 
 #==================================
